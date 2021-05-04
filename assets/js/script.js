@@ -15,3 +15,5 @@
 // call API'S
 //      Weather
 //      News
+
+console.log("js linked");
