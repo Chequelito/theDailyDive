@@ -83,9 +83,24 @@ $(document).ready(function () {
     });
   }
 
+  //--Calling Science/tech OBJ from NY API--//
+  function techNewsData() {
+    var techApiKey = "UAm8GChwLgFlI7l9sL58gMBAlx1H3XT3";
+    var techUrl = `https://api.nytimes.com/svc/topstories/v2/technology.json?api-key=${techApiKey}`;
+    console.log("tech News Api Function Call");
+    fetch(techUrl)
+      .then(function (response) {
+        return response.json();
+      })
+      .then(function (CurrentNewsTech) {
+        console.log(CurrentNewsTech);
+      });
+  }
+
   // on page load, call functions to display:
   //      weather based on location
   //      news articles with appropriate filters
+  techNewsData();
   geolocateUser();
 
   // jQuery - keep code above the brackets below
