@@ -69,8 +69,11 @@ $(document).ready(function () {
     var weatherURL = `${weatherBaseURL}lat=${geolocationObj.lat}&lon=${geolocationObj.lon}&appid=${weatherAPIKey}`;
     console.log(weatherURL);
     $.ajax({
-      url: "",
-      success: "",
+      url: weatherURL,
+      method: "GET",
+    }).then(function (response) {
+      console.log("Ajax Reponse \n-------------");
+      console.log(response);
     });
   }
   //      News
