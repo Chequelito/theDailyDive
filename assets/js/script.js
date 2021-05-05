@@ -8,6 +8,18 @@ $(document).ready(function () {
 
   // VARIABLE DECLARATIONS
 
+  var cityName;
+  var tempMax;
+  var tempMin;
+  var humidity;
+  var windSpeed;
+  var windGust;
+  var date;
+  var time;
+  var weatherDesc;
+  var sunrise;
+  var sunset;
+
   var newsBaseURL = "https://api.nytimes.com/svc/search/v2/articlesearch.json?";
   var weatherBaseURL = "https://api.openweathermap.org/data/2.5/weather?";
   var newsAPIKey = "B1bWnHrsG4FxF0rkw1Fg9cWo0bLCYrtE";
@@ -66,13 +78,41 @@ $(document).ready(function () {
   //      Weather
   function callWeatherAPI(geolocationObj) {
     console.log("weather api call function\n-----------");
-    var weatherURL = `${weatherBaseURL}lat=${geolocationObj.lat}&lon=${geolocationObj.lon}&appid=${weatherAPIKey}`;
+    var weatherURL = `${weatherBaseURL}lat=${geolocationObj.lat}&lon=${geolocationObj.lon}&appid=${weatherAPIKey}&units=imperial`;
 
     $.ajax({
       url: weatherURL,
       method: "GET",
     }).then(function (response) {
       console.log(response);
+
+      //grabbing todays date
+      var dateToday = new Date(response.dt * 1000).toLocaleDateString();
+      console.log(dateToday);
+
+      // grabbing time
+      var localTime = new Date(response.dt * 1000).toLocaleTimeString();
+      console.log(localTime);
+
+      // sunrise/sunset time
+      sunriseObj = new Date(response.sys.sunrise * 1000).toLocaleTimeString();
+      sunsetObj = new Date(response.sys.sunset * 1000).toLocaleTimeString();
+      console.log(sunriseObj);
+      console.log(sunsetObj);
+
+      // placing weather data into static html
+
+      $(cityName).text(response.name);
+      $(tempMax).text(response.main.temp_max);
+      $(tempMin).text(response.main.temp_min);
+      $(humidity).text(response.main.humidity);
+      $(windSpeed).text(response.wind.speed);
+      $(windGust).text(response.wind.gust);
+      $(date).text(dateToday);
+      $(time).text(localTime);
+      $(weatherDesc).text(response.weather[0].description);
+      $(sunrise).text(sunriseObj);
+      $(sunset).text(sunsetObj);
     });
   }
   //      News
