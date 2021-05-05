@@ -37,7 +37,6 @@ $(document).ready(function () {
       //callNewsAPI(geolocationObj);
       //JG added function for grabbing global news object
       callGlobalNewsAPI(geolocationObj);
-
     }
 
     // if there is an error
@@ -114,6 +113,57 @@ $(document).ready(function () {
       })
       .then(function (CurrentNewsTech) {
         console.log(CurrentNewsTech);
+        newsCards.innerHTML = `
+        <section class="news col-md-2 mb-3">
+          <div class="card">
+            <img
+              src="./assets/images/bill-wegener-CVIeAfFv4rM-unsplash.jpg"
+              class="card-img-top"
+              alt="..."
+            />
+            <div class="card-body">
+             <a href ="" src =""></a> <h2 class="title">this will hold the title${title}</h2></a>
+              <p class="card-text">
+               the abstract will go here${abstract}
+              </p>
+              <p>${publishdate}</p>
+            </div>
+          </div>
+        </section>
+
+        <section class="news col-md-2 mb-3">
+          <div class="card">
+            <img
+              src="./assets/images/brooke-lark-RMcJIvxhuW0-unsplash.jpg"
+              class="card-img-top"
+              alt="..."
+            />
+            <div class="card-body">
+              <a href ="" src =""></a> <h2 class="title">this will hold the title${title}</h2></a>
+              <p class="card-text">
+                the abstract will go here${abstract}
+                <p>${publishdate}</p>
+              </p>
+            </div>
+          </div>
+        </section>
+
+        <section class="news col-md-2 mb-3">
+          <div class="card">
+            <img
+              src="./assets/images/stephen-cook-ycduJobBI24-unsplash.jpg"
+              class="card-img-top"
+              alt="..."
+            />
+            <div class="card-body">
+             <a href ="" src =""></a> <h2 class="title">this will hold the title${title}</h2></a>
+              <p class="card-text">
+               the abstract will go here${abstract}
+              </p>
+              <p>${publishdate}</p>
+            </div>
+          </div>
+        </section>`;
       });
   }
 
