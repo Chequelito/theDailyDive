@@ -2,8 +2,6 @@
 
 // jQuery
 $(document).ready(function () {
-  console.log("js linked");
-
   // feature/js-creation  //
   //      author: Zach    //
   //  Pseudo Code  //
@@ -37,9 +35,9 @@ $(document).ready(function () {
       // call API's with geolocation
       callWeatherAPI(geolocationObj);
       //callNewsAPI(geolocationObj);
-
       //JG added function for grabbing global news object
       callGlobalNewsAPI(geolocationObj);
+
     }
 
     // if there is an error
@@ -62,20 +60,18 @@ $(document).ready(function () {
         onGeolocateError
       );
     }
-    console.log("geolocate function");
   }
 
   // call API'S
   //      Weather
   function callWeatherAPI(geolocationObj) {
-    console.log("weather api call function");
+    console.log("weather api call function\n-----------");
     var weatherURL = `${weatherBaseURL}lat=${geolocationObj.lat}&lon=${geolocationObj.lon}&appid=${weatherAPIKey}`;
-    console.log(weatherURL);
+
     $.ajax({
       url: weatherURL,
       method: "GET",
     }).then(function (response) {
-      console.log("Ajax Reponse \n-------------");
       console.log(response);
     });
   }
@@ -107,9 +103,24 @@ $(document).ready(function () {
     });
   }
 
+  //--Calling Science/tech OBJ from NY API--//
+  function techNewsData() {
+    var techApiKey = "UAm8GChwLgFlI7l9sL58gMBAlx1H3XT3";
+    var techUrl = `https://api.nytimes.com/svc/topstories/v2/technology.json?api-key=${techApiKey}`;
+    console.log("tech News Api Function Call");
+    fetch(techUrl)
+      .then(function (response) {
+        return response.json();
+      })
+      .then(function (CurrentNewsTech) {
+        console.log(CurrentNewsTech);
+      });
+  }
+
   // on page load, call functions to display:
   //      weather based on location
   //      news articles with appropriate filters
+  techNewsData();
   geolocateUser();
 
   // jQuery - keep code above the brackets below
