@@ -8,16 +8,17 @@
 
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css"
     integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous" />
+  <link rel="stylesheet" href="./style.css">
 
-  <!-- Testing git branck -->
   <title>The Daily Dive</title>
 </head>
 
 <body>
+
   <header>
     <div class="jumbotron jumbotron-fluid">
       <div class="container">
-        <h1 class="display-4">The Daily Dive</h1>
+        <h1 class="lead display-4">The Daily Dive</h1>
         <p class="lead">
           This is a modified jumbotron that occupies the entire horizontal
           space of its parent.
@@ -25,47 +26,65 @@
       </div>
     </div>
   </header>
-  <div class="main-container row">
-    <div class="col-med-3 ml-5">
+
+
+
+  <div class="row justify-content-around">
+
+    <section class="col-med-3 ml-5">
       <h3>Categories:</h3>
       <div class="card" style="width: 18rem">
         <div class="card-header">Featured</div>
         <ul class="list-group list-group-flush">
-          <li class="list-group-item">An item</li>
-          <li class="list-group-item">A second item</li>
-          <li class="list-group-item">A third item</li>
+          <li class="tools list-group-item">An item</li>
+          <li class="tools list-group-item">A second item</li>
+          <li class="tools list-group-item">A third item</li>
         </ul>
       </div>
-    </div>
-    <div class="col-med-9">
-      <div class="card" style="width: 18rem">
-        <img src="..." class="card-img-top" alt="..." />
+    </section>
+
+
+    <section class="news col-md-2 mb-3">
+      <div class="card">
+        <img src="./Images/bill-wegener-CVIeAfFv4rM-unsplash.jpg" class="card-img-top" alt="..." />
         <div class="card-body">
+          <h2 class="title">Nothing Happened</h2>
           <p class="card-text">
             Some quick example text to build on the card title and make up the
             bulk of the card's content.
           </p>
         </div>
       </div>
-      <div class="card" style="width: 18rem">
-        <img src="..." class="card-img-top" alt="..." />
+    </section>
+
+    <section class="news col-md-2 mb-3">
+      <div class="card">
+        <img src="./Images/brooke-lark-RMcJIvxhuW0-unsplash.jpg" class="card-img-top" alt="..." />
         <div class="card-body">
+          <h2 class="title">Stuff Happened</h2>
           <p class="card-text">
             Some quick example text to build on the card title and make up the
             bulk of the card's content.
           </p>
         </div>
       </div>
-      <div class="card" style="width: 18rem">
-        <img src="..." class="card-img-top" alt="..." />
+    </section>
+
+
+    <section class="news col-md-2 mb-3">
+      <div class="card">
+        <img src="./Images/stephen-cook-ycduJobBI24-unsplash.jpg" class="card-img-top" alt="..." />
         <div class="card-body">
+          <h2 class="title">What Happened?</h2>
           <p class="card-text">
             Some quick example text to build on the card title and make up the
             bulk of the card's content.
           </p>
         </div>
       </div>
-    </div>
+    </section>
+
+
   </div>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.min.js"
     integrity="sha384-+YQ4JLhjyBLPDQt//I+STsc9iw4uQqACwlvpslubQzn4u2UU2UFM80nGisd026JF"
