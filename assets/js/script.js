@@ -11,7 +11,7 @@ $(document).ready(function () {
   // VARIABLE DECLARATIONS
 
   var newsBaseURL = "https://api.nytimes.com/svc/search/v2/articlesearch.json?";
-  var weatherBaseURL = `api.openweathermap.org/data/2.5/weather?`;
+  var weatherBaseURL = "https://api.openweathermap.org/data/2.5/weather?";
   var newsAPIKey = "B1bWnHrsG4FxF0rkw1Fg9cWo0bLCYrtE";
   var weatherAPIKey = "24d3e77575ea6a3daa1e23b95dbe112f";
 
@@ -36,7 +36,10 @@ $(document).ready(function () {
 
       // call API's with geolocation
       callWeatherAPI(geolocationObj);
-      callNewsAPI(geolocationObj);
+      //callNewsAPI(geolocationObj);
+
+      //JG added function for grabbing global news object
+      callGlobalNewsAPI(geolocationObj);
     }
 
     // if there is an error
@@ -77,13 +80,30 @@ $(document).ready(function () {
     });
   }
   //      News
-  function callNewsAPI(geolocationObj) {
-    console.log("news api call function");
-    var newsURL = `${newsBaseURL}fq=news_desk:"technology"&glocations:${geolocationObj}&api-key=${newsAPIKey}`;
-    console.log(newsURL);
+  // function callNewsAPI(geolocationObj) {
+  //   console.log("news api call function");
+  //   var newsURL = `${newsBaseURL}fq=news_desk:"technology"&glocations:${geolocationObj}&api-key=${newsAPIKey}`;
+  //   console.log(newsURL);
+  //   $.ajax({
+  //     url: "",
+  //     success: "",
+  //   });
+  // }
+
+  ///JG global news object function
+  function callGlobalNewsAPI(geolocationObj) {
+    var globalNewsApiKey = "UCJMG4jj3LlXlGM9nUTRBZiy6aCx7huZ";
+    console.log("Global news api call function");
+    var globalNewsUrl =
+      "https://api.nytimes.com/svc/topstories/v2/world.json?api-key=" +
+      globalNewsApiKey;
+    console.log(globalNewsUrl);
+
     $.ajax({
-      url: "",
-      success: "",
+      url: globalNewsUrl,
+      method: "GET",
+    }).then(function (response) {
+      console.log(response);
     });
   }
 
