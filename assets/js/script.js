@@ -37,7 +37,6 @@ $(document).ready(function () {
       //callNewsAPI(geolocationObj);
       //JG added function for grabbing global news object
       callGlobalNewsAPI(geolocationObj);
-
     }
 
     // if there is an error
@@ -89,7 +88,6 @@ $(document).ready(function () {
   ///JG global news object function
   function callGlobalNewsAPI(geolocationObj) {
     var globalNewsApiKey = "UCJMG4jj3LlXlGM9nUTRBZiy6aCx7huZ";
-    console.log("Global news api call function");
     var globalNewsUrl =
       "https://api.nytimes.com/svc/topstories/v2/world.json?api-key=" +
       globalNewsApiKey;
@@ -99,9 +97,37 @@ $(document).ready(function () {
       url: globalNewsUrl,
       method: "GET",
     }).then(function (response) {
-      console.log(response);
+      console.log("IN GLOBAL NEWS FUNCTION");
+      var globalNewsData = response.results;
+      //console.log(globalNewsData);
+      for (var i = 0; i < 5; i++) {
+        //console.log(globalNewsData[i]);
+        var title = globalNewsData[i].title;
+        var abstract = globalNewsData[i].abstract;
+        var publishedDate = globalNewsData[i].published_date;
+        var shortUrl = globalNewsData[i].short_url;
+        publishedDate = moment().format("MMM Do YYYY");
+        console.log("Title: " + title);
+        console.log("abstract: " + abstract);
+        console.log("Published Date: " + publishedDate);
+        console.log("Short Url :" + shortUrl);
+
+        buildCard(title, abstract, publishedDate, shortUrl);
+      }
     });
   }
+
+  //Build card function to be called inside each newsapi function
+  // function buildCard(title,abstract,publishedDate,shortUrl)
+  // {
+  // var section = document.createElement("<section>");
+  // section.setAttribute("class", "news col-md-2 mb-3");
+
+  // var div = document.createElement("<div>")
+  //   div.setAttribute("class", "");
+  //   div.textContent(title);
+
+  // }
 
   //--Calling Science/tech OBJ from NY API--//
   function techNewsData() {
