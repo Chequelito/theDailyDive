@@ -8,7 +8,18 @@ $(document).ready(function () {
   //      author: Zach    //
   //  Pseudo Code  //
 
-  // VARIABLE DECLARATIONS
+  var cityName;
+  var tempMax;
+  var tempMin;
+  var humidity;
+  var windSpeed;
+  var windGust;
+  var date;
+  var time;
+  var weatherDesc;
+  var sunrise;
+  var sunset;
+  var currentTemp;
 
   var newsBaseURL = "https://api.nytimes.com/svc/search/v2/articlesearch.json?";
   var weatherBaseURL = `api.openweathermap.org/data/2.5/weather?`;
