@@ -1,118 +1,306 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-    <link
-      rel="stylesheet"
-      href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css"
-      integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l"
-      crossorigin="anonymous"
-    />
-    <link rel="stylesheet" href="./assets/style/style.css" />
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-    <title>The Daily Dive</title>
-  </head>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css"
+    integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous" />
+  <link rel="stylesheet" href="./assets/style/style.css" />
 
-  <body>
-    <header>
-      <div class="jumbotron jumbotron-fluid">
-        <div class="container">
-          <h1 class="lead display-4">The Daily Dive</h1>
-          <p class="lead">
-            This is a modified jumbotron that occupies the entire horizontal
-            space of its parent.
+  <title>The Daily Dive</title>
+</head>
+
+<body>
+  <header>
+    <div class="jumbotron jumbotron-fluid">
+      <div class="container">
+        <h1 class="lead display-4">The Daily Dive</h1>
+        <p class="lead">
+          This is a modified jumbotron that occupies the entire horizontal
+          space of its parent.
+        </p>
+      </div>
+    </div>
+  </header>
+  <section class="row align-items-center">
+    <div class="card col-med-5 ml-5 mb-3" style="width: 20rem; height: 25rem;">
+      <div class="row">
+        <h1 class="col" id="cityName">Denver</h1>
+        <h1 class="col" id="currentTemp">85*</h1>
+      </div>
+      <h4 id="date">05/05/21</h4>
+      <h2 id="time">2:20pm</h2>
+      <div class="row mb-3">
+        <div class="col-med-2 ml-3">Low-</div>
+        <div class="col-med-2" id="tempMin">69*</div>
+        <div class="col-med-2 ml-3">High-</div>
+        <div class="col-med-2" id="tempHigh">420*</div>
+      </div>
+      <div class="row mb-3">
+        <div class="col-med-2 ml-3">Wind Speed-</div>
+        <div class="col-med-2" id="windSpeed">69mph</div>
+        <div class="col-med-2 ml-3">Gust-</div>
+        <div class="col-med-2" id="windGust">420</div>
+      </div>
+      <div class="row mb-3">
+        <div class="col-med-2 ml-3">Sunrise-</div>
+        <div class="col-med-2" id="sunrise">4:20am</div>
+        <div class="col-med-2 ml-3">Sunset-</div>
+        <div class="col-med-2" id="sunset">4:20pm</div>
+      </div>
+      <section>
+        <p id="weatherDesc">Lorem, ipsum dolor sit amet consectetur adipisicing elit. Eius inventore quasi, eligendi
+          iste
+          nihil maxime minima quam numquam neque voluptates ex vero dolore corporis obcaecati.</p>
+      </section>
+      
+      <section id="newsCards">
+        <!-- <section class="news col-md-2 mb-3">
+          <div class="card">
+            <img
+              src="./assets/images/bill-wegener-CVIeAfFv4rM-unsplash.jpg"
+              class="card-img-top"
+              alt="..."
+            />
+            <div class="card-body">
+              <h2 class="title">Nothing Happened</h2>
+              <p class="card-text">
+                Some quick example text to build on the card title and make up
+                the bulk of the card's content.
+              </p>
+            </div>
+          </div>
+        </section>
+
+        <section class="news col-md-2 mb-3">
+          <div class="card">
+            <img
+              src="./assets/images/brooke-lark-RMcJIvxhuW0-unsplash.jpg"
+              class="card-img-top"
+              alt="..."
+            />
+            <div class="card-body">
+              <h2 class="title">Stuff Happened</h2>
+              <p class="card-text">
+                Some quick example text to build on the card title and make up
+                the bulk of the card's content.
+
+              </p>
+            </div>
+          </div>
+        </section>
+
+        <section class="news col-md-2 mb-3">
+          <div class="card">
+            <img
+              src="./assets/images/stephen-cook-ycduJobBI24-unsplash.jpg"
+              class="card-img-top"
+              alt="..."
+            />
+            <div class="card-body">
+              <h2 class="title">What Happened?</h2>
+              <p class="card-text">
+                Some quick example text to build on the card title and make up
+                the bulk of the card's content.
+              </p>
+            </div>
+          </div>
+        </section> -->
+       </div>
+     </section>
+
+    <section class="upcoming container-fluid">
+      <div class="row  flex-row flex-nowrap">             
+        <section class="mb-3">
+          <div class="weather card">
+            <div class="card-body">
+              <h2 class="title">In an hour</h2>
+              <p class="card-text">
+                Some quick example text to build on the card title and make up the
+                bulk of the card's content.
+               </p>
+            </div>
+          </div>
+        </section>
+    
+        <section class="mb-3">
+          <div class="weather card">
+            <div class="card-body">
+              <h2 class="title">In two hours</h2>
+              <p class="card-text">
+                Some quick example text to build on the card title and make up the
+                bulk of the card's content.
+                 </p>
+            </div>
+          </div>
+        </section>
+
+
+        <section class="mb-3">
+          <div class="weather card">
+            <div class="card-body">
+              <h2 class="title">In three hours</h2>
+              <p class="card-text">
+                Some quick example text to build on the card title and make up the
+                bulk of the card's content.
+              </p>
+            </div>
+          </div>
+        </section>
+        
+        <section class="mb-3">
+          <div class="weather card">
+            <div class="card-body">
+              <h2 class="title">In four hours</h2>
+              <p class="card-text">
+                Some quick example text to build on the card title and make up the
+                bulk of the card's content.
+              </p>
+            </div>
+          </div>
+        </section>
+
+
+        <section class="mb-3">
+          <div class="weather card">
+            <div class="card-body">
+              <h2 class="title">In five hours</h2>
+              <p class="card-text">
+                Some quick example text to build on the card title and make up the
+                bulk of the card's content.
+              </p>
+            </div>
+          </div>
+        </section>
+
+        <section class="mb-3">
+          <div class="weather card">
+            <div class="card-body">
+              <h2 class="title">In six hours</h2>
+              <p class="card-text">
+                Some quick example text to build on the card title and make up the
+                bulk of the card's content.
+              </p>
+            </div>
+          </div>
+        </section>
+
+        <section class="mb-3">
+          <div class="weather card">
+            <div class="card-body">
+              <h2 class="title">In seven hours</h2>
+              <p class="card-text">
+                Some quick example text to build on the card title and make up the
+                bulk of the card's content.
+              </p>
+            </div>
+          </div>
+        </section>
+        
+        <section class="mb-3">
+          <div class="weather card">
+            <div class="card-body">
+              <h2 class="title">In eight hours</h2>
+              <p class="card-text">
+                Some quick example text to build on the card title and make up the
+                bulk of the card's content.
+              </p>
+            </div>
+          </div>
+        </section>
+
+        <section class="mb-3">
+          <div class="weather card">
+            <div class="card-body">
+              <h2 class="title">Tomorrow</h2>
+              <p class="card-text">
+                Some quick example text to build on the card title and make up the
+                bulk of the card's content.
+              </p>
+            </div>
+          </div>
+        </section>
+
+        <section class="mb-3">
+          <div class="weather card">
+            <div class="card-body">
+              <h2 class="title">The next day</h2>
+              <p class="card-text">
+                Some quick example text to build on the card title and make up the
+                bulk of the card's content.
+              </p>
+            </div>
+          </div>
+        </section>
+      </div>
+    </section>
+
+  <div class="row justify-content-around">
+    <section class="col-med-3 ml-5">
+      <h3>Categories:</h3>
+      <div class="card" style="width: 18rem">
+        <div class="card-header">Featured</div>
+        <ul class="list-group list-group-flush">
+          <a href="#" class="tools list-group-item list-group-item-action" aria-current="true">
+            The current link item
+          </a>
+          <a href="#" class="tools list-group-item list-group-item-action">A second link item</a>
+          <a href="#" class="tools list-group-item list-group-item-action">A third link item</a>
+          <a href="#" class="tools list-group-item list-group-item-action">A fourth link item</a>
+          <a href="#" class="list-group-item list-group-item-action disabled" tabindex="-1" aria-disabled="true">A
+            disabled link item</a>
+        </ul>
+      </div>
+    </section>
+
+    <section class="news col-md-2 mb-3">
+      <div class="card">
+        <img src="./assets/images/bill-wegener-CVIeAfFv4rM-unsplash.jpg" class="card-img-top" alt="..." />
+        <div class="card-body">
+          <h2 class="title">Nothing Happened</h2>
+          <p class="card-text">
+            Some quick example text to build on the card title and make up the
+            bulk of the card's content.
           </p>
         </div>
       </div>
-    </header>
+    </section>
 
-    <div class="row justify-content-around">
-      <section class="col-med-3 ml-5">
-        <h3>Categories:</h3>
-        <div class="card" style="width: 18rem">
-          <div class="card-header">Featured</div>
-          <ul class="list-group list-group-flush">
-            <a
-              href="#"
-              class="tools list-group-item list-group-item-action"
-              aria-current="true"
-            >
-              The current link item
-            </a>
-            <a href="#" class="tools list-group-item list-group-item-action"
-              >A second link item</a
-            >
-            <a href="#" class="tools list-group-item list-group-item-action"
-              >A third link item</a
-            >
-            <a href="#" class="tools list-group-item list-group-item-action"
-              >A fourth link item</a
-            >
-            <a
-              href="#"
-              class="list-group-item list-group-item-action disabled"
-              tabindex="-1"
-              aria-disabled="true"
-              >A disabled link item</a
-            >
-          </ul>
+    <section class="news col-md-2 mb-3">
+      <div class="card">
+        <img src="./assets/images/brooke-lark-RMcJIvxhuW0-unsplash.jpg" class="card-img-top" alt="..." />
+        <div class="card-body">
+          <h2 class="title">Stuff Happened</h2>
+          <p class="card-text">
+            Some quick example text to build on the card title and make up the
+            bulk of the card's content.
+          </p>
         </div>
-      </section>
+      </div>
+    </section>
 
-      <section class="news col-md-2 mb-3">
-        <div class="card">
-          <img
-            src="./assets/images/bill-wegener-CVIeAfFv4rM-unsplash.jpg"
-            class="card-img-top"
-            alt="..."
-          />
-          <div class="card-body">
-            <h2 class="title">Nothing Happened</h2>
-            <p class="card-text">
-              Some quick example text to build on the card title and make up the
-              bulk of the card's content.
-            </p>
-          </div>
+    <section class="news col-md-2 mb-3">
+      <div class="card">
+        <img src="./assets/images/stephen-cook-ycduJobBI24-unsplash.jpg" class="card-img-top" alt="..." />
+        <div class="card-body">
+          <h2 class="title">What Happened?</h2>
+          <p class="card-text">
+            Some quick example text to build on the card title and make up the
+            bulk of the card's content.
+          </p>
         </div>
-      </section>
+      </div>
+    </section>
+  </div>
 
-      <section class="news col-md-2 mb-3">
-        <div class="card">
-          <img
-            src="./assets/images/brooke-lark-RMcJIvxhuW0-unsplash.jpg"
-            class="card-img-top"
-            alt="..."
-          />
-          <div class="card-body">
-            <h2 class="title">Stuff Happened</h2>
-            <p class="card-text">
-              Some quick example text to build on the card title and make up the
-              bulk of the card's content.
-            </p>
-          </div>
-        </div>
-      </section>
-
-      <section class="news col-md-2 mb-3">
-        <div class="card">
-          <img
-            src="./assets/images/stephen-cook-ycduJobBI24-unsplash.jpg"
-            class="card-img-top"
-            alt="..."
-          />
-          <div class="card-body">
-            <h2 class="title">What Happened?</h2>
-            <p class="card-text">
-              Some quick example text to build on the card title and make up the
-              bulk of the card's content.
-            </p>
-          </div>
-        </div>
-      </section>
-    </div>
+    <!-- momentjs library -->
+    <script
+      type="text/javascript"
+      src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.27.0/moment.min.js"
+    ></script>
     <!-- jquery cdn -->
     <script
       src="https://code.jquery.com/jquery-1.12.4.min.js"
@@ -125,6 +313,8 @@
       crossorigin="anonymous"
     ></script>
     <script src="./assets/js/script.js
+
     "></script>
-  </body>
+</body>
+
 </html>

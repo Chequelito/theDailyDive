@@ -2,10 +2,12 @@
 
 // jQuery
 $(document).ready(function () {
+
   // VARIABLE DECLARATIONS
 
   // link html elements to js variables
   var cityName;
+  var currentTemp;
   var tempMax;
   var tempMin;
   var humidity;
@@ -35,6 +37,7 @@ $(document).ready(function () {
       // call weather api with geolocationObj
       callWeatherAPI(geolocationObj);
       //JG added function for grabbing global news object
+
       callGlobalNewsAPI();
     }
 
@@ -155,7 +158,6 @@ $(document).ready(function () {
   ///JG global news object function
   function callGlobalNewsAPI() {
     var globalNewsApiKey = "UCJMG4jj3LlXlGM9nUTRBZiy6aCx7huZ";
-    console.log("Global news api call function");
     var globalNewsUrl =
       "https://api.nytimes.com/svc/topstories/v2/world.json?api-key=" +
       globalNewsApiKey;
@@ -165,9 +167,37 @@ $(document).ready(function () {
       url: globalNewsUrl,
       method: "GET",
     }).then(function (response) {
-      console.log(response);
+      console.log("IN GLOBAL NEWS FUNCTION");
+      var globalNewsData = response.results;
+      //console.log(globalNewsData);
+      for (var i = 0; i < 5; i++) {
+        //console.log(globalNewsData[i]);
+        var title = globalNewsData[i].title;
+        var abstract = globalNewsData[i].abstract;
+        var publishedDate = globalNewsData[i].published_date;
+        var shortUrl = globalNewsData[i].short_url;
+        publishedDate = moment().format("MMM Do YYYY");
+        console.log("Title: " + title);
+        console.log("abstract: " + abstract);
+        console.log("Published Date: " + publishedDate);
+        console.log("Short Url :" + shortUrl);
+
+        buildCard(title, abstract, publishedDate, shortUrl);
+      }
     });
   }
+
+  //Build card function to be called inside each newsapi function
+  // function buildCard(title,abstract,publishedDate,shortUrl)
+  // {
+  // var section = document.createElement("<section>");
+  // section.setAttribute("class", "news col-md-2 mb-3");
+
+  // var div = document.createElement("<div>")
+  //   div.setAttribute("class", "");
+  //   div.textContent(title);
+
+  // }
 
   //--Calling Science/tech OBJ from NY API--//
   function techNewsData() {
@@ -180,6 +210,57 @@ $(document).ready(function () {
       })
       .then(function (CurrentNewsTech) {
         console.log(CurrentNewsTech);
+        newsCards.innerHTML = `
+        <section class="news col-md-2 mb-3">
+          <div class="card">
+            <img
+              src="./assets/images/bill-wegener-CVIeAfFv4rM-unsplash.jpg"
+              class="card-img-top"
+              alt="..."
+            />
+            <div class="card-body">
+             <a href ="" src =""></a> <h2 class="title">this will hold the title${title}</h2></a>
+              <p class="card-text">
+               the abstract will go here${abstract}
+              </p>
+              <p>${publishdate}</p>
+            </div>
+          </div>
+        </section>
+
+        <section class="news col-md-2 mb-3">
+          <div class="card">
+            <img
+              src="./assets/images/brooke-lark-RMcJIvxhuW0-unsplash.jpg"
+              class="card-img-top"
+              alt="..."
+            />
+            <div class="card-body">
+              <a href ="" src =""></a> <h2 class="title">this will hold the title${title}</h2></a>
+              <p class="card-text">
+                the abstract will go here${abstract}
+                <p>${publishdate}</p>
+              </p>
+            </div>
+          </div>
+        </section>
+
+        <section class="news col-md-2 mb-3">
+          <div class="card">
+            <img
+              src="./assets/images/stephen-cook-ycduJobBI24-unsplash.jpg"
+              class="card-img-top"
+              alt="..."
+            />
+            <div class="card-body">
+             <a href ="" src =""></a> <h2 class="title">this will hold the title${title}</h2></a>
+              <p class="card-text">
+               the abstract will go here${abstract}
+              </p>
+              <p>${publishdate}</p>
+            </div>
+          </div>
+        </section>`;
       });
   }
 
