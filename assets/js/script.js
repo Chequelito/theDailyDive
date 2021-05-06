@@ -5,18 +5,21 @@ $(document).ready(function () {
   // VARIABLE DECLARATIONS
 
   // link html elements to js variables
-  var cityName;
-  var currentTemp;
-  var tempMax;
-  var tempMin;
-  var humidity;
-  var windSpeed;
-  var windGust;
-  var date;
-  var time;
-  var weatherDesc;
-  var sunrise;
-  var sunset;
+  var cityName = $("#cityName");
+  var tempCurrent = $("#currentTemp");
+  var tempMax = $("#tempMax");
+  var tempMin = $("#tempMin");
+  var humidity = $("#");
+  var windSpeed = $("#windSpeed");
+  var windGust = $("#windGust");
+  var date = $("#date");
+  var time = $("#time");
+  var weatherDesc = $("weatherDesc");
+  var sunrise = $("#sunrise");
+  var sunset = $("#sunset");
+
+  var devotionalBtn = $("#devotionalBtn");
+  var zenQuoteBtn = $("#zenQuoteBtn");
 
   // FUNCTION DECLARATIONS
 
@@ -94,14 +97,15 @@ $(document).ready(function () {
 
       // update static html text with weather data
       $(cityName).text(response.name);
-      $(tempMax).text(response.main.temp_max);
-      $(tempMin).text(response.main.temp_min);
-      $(humidity).text(response.main.humidity);
-      $(windSpeed).text(response.wind.speed);
-      $(windGust).text(response.wind.gust);
+      $(tempCurrent).text("Currently: " + response.main.temp + "°F");
+      $(tempMax).text("High: " + response.main.temp_max + "°F");
+      $(tempMin).text("Low: " + response.main.temp_min + "°F");
+      $(humidity).text("Humidity: " + " " + response.main.humidity + "%");
+      $(windSpeed).text("Wind Speed: " + response.wind.speed + "MPH");
+      $(windGust).text("Wind Gusts: " + response.wind.gust + " MPH");
       $(weatherDesc).text(response.weather[0].description);
-      $(sunrise).text(sunriseObj);
-      $(sunset).text(sunsetObj);
+      $(sunrise).text("Sunrise Time: " + sunriseObj);
+      $(sunset).text("Sunset Time: " + sunsetObj);
     });
   }
 
@@ -181,7 +185,7 @@ $(document).ready(function () {
         console.log("Published Date: " + publishedDate);
         console.log("Short Url :" + shortUrl);
 
-        buildCard(title, abstract, publishedDate, shortUrl);
+        // buildCard(title, abstract, publishedDate, shortUrl);
       }
     });
   }
@@ -312,9 +316,36 @@ $(document).ready(function () {
       });
   }
 
+  //            AUTHOR: Zach              //
+  // -- Devotional or Inspirational Quote -- //
+  function devotionalCallAPI() {
+    var devotionalURL = ``;
+    $.ajax({
+      url: devotionalURL,
+      method: "GET",
+    }).then(function (response) {
+      console.log(response);
+    });
+  }
+
+  function zenQuotesCallAPI() {
+    var zenBase = "https://zenquotes.io/api/";
+    var zenURL = `${zenBase}today/`;
+    $.ajax({
+      url: zenURL,
+      method: "GET",
+    }).then(function (response) {
+      console.log(response);
+    });
+  }
+
   //      news articles with appropriate filters
   techNewsData();
   geolocateUser();
+
+  // EVENT HANDLERS
+  zenQuoteBtn.on("click", zenQuotesCallAPI);
+  devotionalBtn.on("click", devotionalCallAPI);
 
   // jQuery - keep code above the brackets below
 });
