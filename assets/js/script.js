@@ -201,6 +201,55 @@ $(document).ready(function () {
   //   div.textContent(title);
 
   // }
+  //*****Dynamic News Card Function******Author:Sam//
+  function buildCard(title, abstract, publishedDate, shortUrl) {
+    //**Main Section Container Variable for all News Cards***//
+    var newsCards = document.getElementById("newsCards");
+
+    //***Section Container For Individual Card***//
+    var section = document.createElement("section");
+    section.setAttribute("class", "news col-md-2 mb-3 row");
+    section.setAttribute("width", "150px");
+    newsCards.appendChild(section);
+
+    //***Inner Card Container to Hold News Data***//
+    var divCard = document.createElement("div");
+    divCard.setAttribute("class", "card");
+    section.appendChild(divCard);
+
+    //**Card Body Variable***//
+    var divBody = document.createElement("div");
+    divBody.setAttribute("class", "card-body");
+    divCard.appendChild(divBody);
+
+    //**Title for Card Content***//
+    var cardTitle = document.createElement("h2");
+    cardTitle.setAttribute("class", "title");
+    var titleLink = document.createElement("a");
+    titleLink.setAttribute("href", shortUrl);
+    titleLink.setAttribute("target", "_blank");
+    titleLink.textContent = title;
+    cardTitle.appendChild(titleLink);
+
+    console.log("THIS IS THE TITLE" + title);
+    divBody.appendChild(cardTitle);
+
+    //***Abstract Info for card***//
+    var abstractPara = document.createElement("p");
+    abstractPara.setAttribute("class", "card-text");
+    abstractPara.textContent = abstract;
+    divBody.appendChild(abstractPara);
+
+    //***Publish Date Paragraph Information***//
+    var publishDatePara = document.createElement("p");
+    publishDatePara.setAttribute("class", "card-text");
+    var dateText = document.createTextNode(publishedDate);
+    // console.log("PUBLISH DATE" + publishedDate);
+    // publishDatePara.textContent = publishedDate;
+    publishDatePara.appendChild(dateText);
+    divBody.appendChild(publishDatePara);
+    console.log(newsCards);
+  }
 
   //--Calling Science/tech OBJ from NY API--//
   function techNewsData() {
