@@ -6,7 +6,18 @@ $(document).ready(function () {
   //      author: Zach    //
   //  Pseudo Code  //
 
-  // VARIABLE DECLARATIONS
+  var cityName;
+  var tempMax;
+  var tempMin;
+  var humidity;
+  var windSpeed;
+  var windGust;
+  var date;
+  var time;
+  var weatherDesc;
+  var sunrise;
+  var sunset;
+  var currentTemp;
 
   var cityName;
   var tempMax;

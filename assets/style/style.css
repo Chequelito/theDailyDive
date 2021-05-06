@@ -28,6 +28,17 @@
 }
 
 .jumbotron {
-  background-image: url("#");
+  background-image: url("");
   background-position: center;
+}
+
+.upcoming {
+   position: relative;
+  overflow: scroll;
+  filter: drop-shadow(0 0 10px #0003);
+  width: 65%;
+  height: 15rem;
+}
+.weather {
+ width: 12rem;
 }
