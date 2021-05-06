@@ -17,19 +17,6 @@ $(document).ready(function () {
   var weatherDesc;
   var sunrise;
   var sunset;
-  var currentTemp;
-
-  var cityName;
-  var tempMax;
-  var tempMin;
-  var humidity;
-  var windSpeed;
-  var windGust;
-  var date;
-  var time;
-  var weatherDesc;
-  var sunrise;
-  var sunset;
 
   var newsBaseURL = "https://api.nytimes.com/svc/search/v2/articlesearch.json?";
   var weatherBaseURL = "https://api.openweathermap.org/data/2.5/weather?";
