@@ -2,34 +2,23 @@
 
 // jQuery
 $(document).ready(function () {
+  //TODO create button listeners for global, local, technology news calls
+
+  // News article with appropriate filters
+  callIpAPI();
+  geolocateUser();
+
   // VARIABLE DECLARATIONS
-
-  // link html elements to js variables
-  var cityName = $("#cityName");
-  var tempCurrent = $("#currentTemp");
-  var tempMax = $("#tempMax");
-  var tempMin = $("#tempMin");
-  var humidity = $("#");
-  var windSpeed = $("#windSpeed");
-  var windGust = $("#windGust");
-  var date = $("#date");
-  var time = $("#time");
-  var weatherDesc = $("weatherDesc");
-  var sunrise = $("#sunrise");
-  var sunset = $("#sunset");
-
-  var devotionalBtn = $("#devotionalBtn");
   var zenQuoteBtn = $("#zenQuoteBtn");
-
-  // FUNCTION DECLARATIONS
+  var devotionalBtn = $("#devotionalBtn");
+  var globalNewsBtn = $("#globalNewsBtn");
+  var technologyNewsBtn = $("#technologyNewsBtn");
+  var localNewsBtn = $("localNewsBtn");
 
   // ask for user's locations from browser with window.navigator.geolocation
   function geolocateUser() {
     // if the location is successfully retrieved
     function onGeolocateSuccess(coordinates) {
-      //   const { latitude, longitude } = coordinates.coords;
-      //   console.log("user's coordinates: ", latitude, longitude);
-
       // pass this obj to weather api
       var geolocationObj = {
         lat: coordinates.coords.latitude,
@@ -38,9 +27,6 @@ $(document).ready(function () {
 
       // call weather api with geolocationObj
       callWeatherAPI(geolocationObj);
-      //JG added function for grabbing global news object
-
-      callGlobalNewsAPI();
     }
 
     // if there is an error trying to grab geolocation
@@ -71,6 +57,19 @@ $(document).ready(function () {
     var weatherBaseURL = "https://api.openweathermap.org/data/2.5/weather?";
     var weatherAPIKey = "24d3e77575ea6a3daa1e23b95dbe112f";
     var weatherURL = `${weatherBaseURL}lat=${geolocationObj.lat}&lon=${geolocationObj.lon}&appid=${weatherAPIKey}&units=imperial`;
+    // link html elements to js variables
+    var cityName = $("#cityName");
+    var tempCurrent = $("#currentTemp");
+    var tempMax = $("#tempMax");
+    var tempMin = $("#tempMin");
+    var humidity = $("#");
+    var windSpeed = $("#windSpeed");
+    var windGust = $("#windGust");
+    var date = $("#date");
+    var time = $("#time");
+    var weatherDesc = $("weatherDesc");
+    var sunrise = $("#sunrise");
+    var sunset = $("#sunset");
 
     $.ajax({
       url: weatherURL,
@@ -109,32 +108,34 @@ $(document).ready(function () {
     });
   }
 
-  // ipstack retrieves user's location (city, region, and country) for local news
-  function callIpstackAPI() {
-    var ipstackAPIKey = "c2ea5ce2d2c3d8249ff25fa33fd14dd3";
-    var ipstackBaseURL = `http://api.ipstack.com/`;
-    // currently, the IP address is fixed to 134.201.250. In the future, we will use the user's IP address once I (Zach) figure out how to get that information.
-    var ipstackURL = `${ipstackBaseURL}134.201.250.155?access_key=${ipstackAPIKey}`;
+  // JG retrieves user's external IP (city, region, and country) for local news
+  function callIpAPI() {
+    //call ipify geolocation api key and url
+    var geoApiKey = "at_0YiSfhoxK70ap9ecG6pYXXKIcktmj";
+    var geoApiUrl = "https://geo.ipify.org/api/v1?apiKey=" + geoApiKey;
+
     $.ajax({
-      url: ipstackURL,
+      url: geoApiUrl,
       method: "GET",
     }).then(function (response) {
+      console.log("IN CALLIPAPI FUNCTION");
       console.log(response);
+      console.log("IP :" + response.ip);
+      console.log("CITY: " + response.location.city);
+      console.log("REGION: " + response.location.region);
+      console.log("COUNTRY: " + response.location.country);
+      console.log("LATITUDE: " + response.location.lat);
+      console.log("LONGITUDE: " + response.location.lng);
+      var city = response.location.city;
+      var region = response.location.region;
+      var country = response.location.country;
 
-      var ipstackObj = {
-        city: response.city,
-        region: response.region_name,
-        country: response.country_name,
-      };
       // call local news and pass the name of user's city, region, and country
-      callLocalNewsAPI(ipstackObj.city, ipstackObj.region, ipstackObj.country);
+      callLocalNewsAPI(city, region, country);
     });
   }
 
-  // call ipstack, requires an IP address - currently using california IP address on line 111
-  callIpstackAPI();
-
-  //    -- Local News -- AUTHOR: Zach   //
+  //    -- Local News -- AUTHOR: Zach   EDITED: JG //
   function callLocalNewsAPI(city, region, country) {
     // removes white spaces from variables
     city = city.replace(/ /g, "");
@@ -144,21 +145,35 @@ $(document).ready(function () {
       "https://api.nytimes.com/svc/search/v2/articlesearch.json?";
     var localNewsAPIKey = "B1bWnHrsG4FxF0rkw1Fg9cWo0bLCYrtE";
     var localNewsURL = `${localNewsBaseURL}fq=glocations.contains:${city},${region},${country}&api-key=${localNewsAPIKey}`;
-    console.log(localNewsURL);
     $.ajax({
       url: localNewsURL,
       Method: "GET",
     }).then(function (response) {
+      console.log("IN CALL LOCAL NEWS FUNCTION");
       console.log(response);
+      var localNewsData = response.response.docs;
+      console.log(localNewsData);
 
-      // alert user if there are no local news articles
-      if (response.response.docs.length === 0) {
-        alert("There are no local news stories at this time for " + city);
+      for (var i = 0; i < 5; i++) {
+        var title = localNewsData[i].headline.main;
+        var abstract = localNewsData[i].abstract;
+        var publishedDate = localNewsData[i].pub_date;
+        var shortUrl = localNewsData[i].web_url;
+
+        publishedDate = moment().format("MMM Do YYYY");
+
+        // console.log("TITLE : " + title);
+        // console.log("ABSTRACT : " + abstract);
+        // console.log("PUBLISHED DATE : " + publishedDate);
+        //console.log("SHORT URL : " + shortUrl);
+
+        buildCard(title, abstract, publishedDate, shortUrl);
       }
     });
   }
 
   ///JG global news object function
+  //TODO Once event listener buttons are added, they can call the news functions
   function callGlobalNewsAPI() {
     var globalNewsApiKey = "UCJMG4jj3LlXlGM9nUTRBZiy6aCx7huZ";
     var globalNewsUrl =
@@ -185,22 +200,25 @@ $(document).ready(function () {
         console.log("Published Date: " + publishedDate);
         console.log("Short Url :" + shortUrl);
 
-        // buildCard(title, abstract, publishedDate, shortUrl);
+        buildCard(title, abstract, publishedDate, shortUrl);
       }
     });
   }
 
-  //Build card function to be called inside each newsapi function
-  // function buildCard(title,abstract,publishedDate,shortUrl)
-  // {
-  // var section = document.createElement("<section>");
-  // section.setAttribute("class", "news col-md-2 mb-3");
+  //--Calling Science/tech OBJ from NY API--//
+  function technologyNewsData() {
+    var techApiKey = "UAm8GChwLgFlI7l9sL58gMBAlx1H3XT3";
+    var techUrl = `https://api.nytimes.com/svc/topstories/v2/technology.json?api-key=${techApiKey}`;
+    console.log("tech News Api Function Call");
+    fetch(techUrl)
+      .then(function (response) {
+        return response.json();
+      })
+      .then(function (CurrentNewsTech) {
+        console.log(CurrentNewsTech);
+      });
+  }
 
-  // var div = document.createElement("<div>")
-  //   div.setAttribute("class", "");
-  //   div.textContent(title);
-
-  // }
   //*****Dynamic News Card Function******Author:Sam//
   function buildCard(title, abstract, publishedDate, shortUrl) {
     //**Main Section Container Variable for all News Cards***//
@@ -231,7 +249,6 @@ $(document).ready(function () {
     titleLink.textContent = title;
     cardTitle.appendChild(titleLink);
 
-    console.log("THIS IS THE TITLE" + title);
     divBody.appendChild(cardTitle);
 
     //***Abstract Info for card***//
@@ -244,76 +261,10 @@ $(document).ready(function () {
     var publishDatePara = document.createElement("p");
     publishDatePara.setAttribute("class", "card-text");
     var dateText = document.createTextNode(publishedDate);
-    // console.log("PUBLISH DATE" + publishedDate);
-    // publishDatePara.textContent = publishedDate;
     publishDatePara.appendChild(dateText);
+
     divBody.appendChild(publishDatePara);
     console.log(newsCards);
-  }
-
-  //--Calling Science/tech OBJ from NY API--//
-  function techNewsData() {
-    var techApiKey = "UAm8GChwLgFlI7l9sL58gMBAlx1H3XT3";
-    var techUrl = `https://api.nytimes.com/svc/topstories/v2/technology.json?api-key=${techApiKey}`;
-    console.log("tech News Api Function Call");
-    fetch(techUrl)
-      .then(function (response) {
-        return response.json();
-      })
-      .then(function (CurrentNewsTech) {
-        console.log(CurrentNewsTech);
-        // newsCards.innerHTML = `
-        // <section class="news col-md-2 mb-3">
-        //   <div class="card">
-        //     <img
-        //       src="./assets/images/bill-wegener-CVIeAfFv4rM-unsplash.jpg"
-        //       class="card-img-top"
-        //       alt="..."
-        //     />
-        //     <div class="card-body">
-        //      <a href ="" src =""></a> <h2 class="title">this will hold the title${title}</h2></a>
-        //       <p class="card-text">
-        //        the abstract will go here${abstract}
-        //       </p>
-        //       <p>${publishdate}</p>
-        //     </div>
-        //   </div>
-        // </section>
-
-        // <section class="news col-md-2 mb-3">
-        //   <div class="card">
-        //     <img
-        //       src="./assets/images/brooke-lark-RMcJIvxhuW0-unsplash.jpg"
-        //       class="card-img-top"
-        //       alt="..."
-        //     />
-        //     <div class="card-body">
-        //       <a href ="" src =""></a> <h2 class="title">this will hold the title${title}</h2></a>
-        //       <p class="card-text">
-        //         the abstract will go here${abstract}
-        //         <p>${publishdate}</p>
-        //       </p>
-        //     </div>
-        //   </div>
-        // </section>
-
-        // <section class="news col-md-2 mb-3">
-        //   <div class="card">
-        //     <img
-        //       src="./assets/images/stephen-cook-ycduJobBI24-unsplash.jpg"
-        //       class="card-img-top"
-        //       alt="..."
-        //     />
-        //     <div class="card-body">
-        //      <a href ="" src =""></a> <h2 class="title">this will hold the title${title}</h2></a>
-        //       <p class="card-text">
-        //        the abstract will go here${abstract}
-        //       </p>
-        //       <p>${publishdate}</p>
-        //     </div>
-        //   </div>
-        // </section>`;
-      });
   }
 
   //            AUTHOR: Zach              //
@@ -339,13 +290,14 @@ $(document).ready(function () {
     });
   }
 
-  //      news articles with appropriate filters
-  techNewsData();
-  geolocateUser();
-
   // EVENT HANDLERS
   zenQuoteBtn.on("click", zenQuotesCallAPI);
   devotionalBtn.on("click", devotionalCallAPI);
+
+  //added news card event handlers --JG
+  globalNewsBtn.on("click", callGlobalNewsAPI);
+  technologyNewsBtn.on("click", technologyNewsData);
+  localNewsBtn.on("click", callIpAPI);
 
   // jQuery - keep code above the brackets below
 });
