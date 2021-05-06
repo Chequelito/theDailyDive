@@ -2,7 +2,6 @@
 
 // jQuery
 $(document).ready(function () {
-
   // VARIABLE DECLARATIONS
 
   // link html elements to js variables
@@ -198,6 +197,55 @@ $(document).ready(function () {
   //   div.textContent(title);
 
   // }
+  //*****Dynamic News Card Function******Author:Sam//
+  function buildCard(title, abstract, publishedDate, shortUrl) {
+    //**Main Section Container Variable for all News Cards***//
+    var newsCards = document.getElementById("newsCards");
+
+    //***Section Container For Individual Card***//
+    var section = document.createElement("section");
+    section.setAttribute("class", "news col-md-2 mb-3 row");
+    section.setAttribute("width", "150px");
+    newsCards.appendChild(section);
+
+    //***Inner Card Container to Hold News Data***//
+    var divCard = document.createElement("div");
+    divCard.setAttribute("class", "card");
+    section.appendChild(divCard);
+
+    //**Card Body Variable***//
+    var divBody = document.createElement("div");
+    divBody.setAttribute("class", "card-body");
+    divCard.appendChild(divBody);
+
+    //**Title for Card Content***//
+    var cardTitle = document.createElement("h2");
+    cardTitle.setAttribute("class", "title");
+    var titleLink = document.createElement("a");
+    titleLink.setAttribute("href", shortUrl);
+    titleLink.setAttribute("target", "_blank");
+    titleLink.textContent = title;
+    cardTitle.appendChild(titleLink);
+
+    console.log("THIS IS THE TITLE" + title);
+    divBody.appendChild(cardTitle);
+
+    //***Abstract Info for card***//
+    var abstractPara = document.createElement("p");
+    abstractPara.setAttribute("class", "card-text");
+    abstractPara.textContent = abstract;
+    divBody.appendChild(abstractPara);
+
+    //***Publish Date Paragraph Information***//
+    var publishDatePara = document.createElement("p");
+    publishDatePara.setAttribute("class", "card-text");
+    var dateText = document.createTextNode(publishedDate);
+    // console.log("PUBLISH DATE" + publishedDate);
+    // publishDatePara.textContent = publishedDate;
+    publishDatePara.appendChild(dateText);
+    divBody.appendChild(publishDatePara);
+    console.log(newsCards);
+  }
 
   //--Calling Science/tech OBJ from NY API--//
   function techNewsData() {
@@ -210,57 +258,57 @@ $(document).ready(function () {
       })
       .then(function (CurrentNewsTech) {
         console.log(CurrentNewsTech);
-        newsCards.innerHTML = `
-        <section class="news col-md-2 mb-3">
-          <div class="card">
-            <img
-              src="./assets/images/bill-wegener-CVIeAfFv4rM-unsplash.jpg"
-              class="card-img-top"
-              alt="..."
-            />
-            <div class="card-body">
-             <a href ="" src =""></a> <h2 class="title">this will hold the title${title}</h2></a>
-              <p class="card-text">
-               the abstract will go here${abstract}
-              </p>
-              <p>${publishdate}</p>
-            </div>
-          </div>
-        </section>
+        // newsCards.innerHTML = `
+        // <section class="news col-md-2 mb-3">
+        //   <div class="card">
+        //     <img
+        //       src="./assets/images/bill-wegener-CVIeAfFv4rM-unsplash.jpg"
+        //       class="card-img-top"
+        //       alt="..."
+        //     />
+        //     <div class="card-body">
+        //      <a href ="" src =""></a> <h2 class="title">this will hold the title${title}</h2></a>
+        //       <p class="card-text">
+        //        the abstract will go here${abstract}
+        //       </p>
+        //       <p>${publishdate}</p>
+        //     </div>
+        //   </div>
+        // </section>
 
-        <section class="news col-md-2 mb-3">
-          <div class="card">
-            <img
-              src="./assets/images/brooke-lark-RMcJIvxhuW0-unsplash.jpg"
-              class="card-img-top"
-              alt="..."
-            />
-            <div class="card-body">
-              <a href ="" src =""></a> <h2 class="title">this will hold the title${title}</h2></a>
-              <p class="card-text">
-                the abstract will go here${abstract}
-                <p>${publishdate}</p>
-              </p>
-            </div>
-          </div>
-        </section>
+        // <section class="news col-md-2 mb-3">
+        //   <div class="card">
+        //     <img
+        //       src="./assets/images/brooke-lark-RMcJIvxhuW0-unsplash.jpg"
+        //       class="card-img-top"
+        //       alt="..."
+        //     />
+        //     <div class="card-body">
+        //       <a href ="" src =""></a> <h2 class="title">this will hold the title${title}</h2></a>
+        //       <p class="card-text">
+        //         the abstract will go here${abstract}
+        //         <p>${publishdate}</p>
+        //       </p>
+        //     </div>
+        //   </div>
+        // </section>
 
-        <section class="news col-md-2 mb-3">
-          <div class="card">
-            <img
-              src="./assets/images/stephen-cook-ycduJobBI24-unsplash.jpg"
-              class="card-img-top"
-              alt="..."
-            />
-            <div class="card-body">
-             <a href ="" src =""></a> <h2 class="title">this will hold the title${title}</h2></a>
-              <p class="card-text">
-               the abstract will go here${abstract}
-              </p>
-              <p>${publishdate}</p>
-            </div>
-          </div>
-        </section>`;
+        // <section class="news col-md-2 mb-3">
+        //   <div class="card">
+        //     <img
+        //       src="./assets/images/stephen-cook-ycduJobBI24-unsplash.jpg"
+        //       class="card-img-top"
+        //       alt="..."
+        //     />
+        //     <div class="card-body">
+        //      <a href ="" src =""></a> <h2 class="title">this will hold the title${title}</h2></a>
+        //       <p class="card-text">
+        //        the abstract will go here${abstract}
+        //       </p>
+        //       <p>${publishdate}</p>
+        //     </div>
+        //   </div>
+        // </section>`;
       });
   }
 
