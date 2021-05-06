@@ -26,35 +26,27 @@
     </div>
   </header>
   <section class="row align-items-center">
-    <div class="card col-med-5 ml-5 mb-3" style="width: 20rem; height: 25rem;">
-      <div class="row">
-        <h1 class="col" id="cityName">Denver</h1>
-        <h1 class="col" id="currentTemp">85*</h1>
+    <div class="card col-med-5 ml-5 mb-5 pl-5" style="width: 20rem; height: 25rem;">
+      <div>
+        <h1 class="row font-weight-bold" id="cityName">Allow location</h1>
+        <h2 class="row" id="date"></h2>
+        <h3 class="row mb-3" id="time"></h3>
+        <div class="row mb-3" id="currentTemp"></div>
       </div>
-      <h4 id="date">05/05/21</h4>
-      <h2 id="time">2:20pm</h2>
-      <div class="row mb-3">
-        <div class="col-med-2 ml-3">Low-</div>
-        <div class="col-med-2" id="tempMin">69*</div>
-        <div class="col-med-2 ml-3">High-</div>
-        <div class="col-med-2" id="tempHigh">420*</div>
+      <div class="row mb-3">        
+        <div class="col-med-2" id="tempMin"></div>    
+        <div class="col-med-2 ml-3" id="tempMax"></div>
       </div>
-      <div class="row mb-3">
-        <div class="col-med-2 ml-3">Wind Speed-</div>
-        <div class="col-med-2" id="windSpeed">69mph</div>
-        <div class="col-med-2 ml-3">Gust-</div>
-        <div class="col-med-2" id="windGust">420</div>
-      </div>
-      <div class="row mb-3">
-        <div class="col-med-2 ml-3">Sunrise-</div>
-        <div class="col-med-2" id="sunrise">4:20am</div>
-        <div class="col-med-2 ml-3">Sunset-</div>
-        <div class="col-med-2" id="sunset">4:20pm</div>
+      <div>   
+        <div class="row mb-3 col-med-2" id="windSpeed"></div>        
+        <div class="row mb-3 col-med-2" id="windGust"></div>              
+        <div class="row mb-3 col-med-2" id="sunrise"></div>            
+        <div class="row mb-3 col-med-2" id="sunset"></div>
       </div>
       <section>
-        <p id="weatherDesc">Lorem, ipsum dolor sit amet consectetur adipisicing elit. Eius inventore quasi, eligendi
-          iste
-          nihil maxime minima quam numquam neque voluptates ex vero dolore corporis obcaecati.</p>
+        <p id="weatherDesc"></p>
+        <button id="devotionalBtn">Devotional</button>
+        <button id="zenQuoteBtn">Inspirational Quote</button>
       </section>
       
       <section id="newsCards">
@@ -295,6 +287,18 @@
       </div>
     </section>
   </div>
+
+
+  <!-- copyright section for API use, we can change location but do NOT REMOVE -Zach -->
+<section class="p-5 font-italic">
+  <div>
+    <!-- required -->
+    <p>Scripture quotations are from the ESV® Bible (The Holy Bible, English Standard Version®), copyright © 2001 by Crossway, a publishing ministry of Good News Publishers. Used by permission. All rights reserved. You may not copy or download more than 500 consecutive verses of the ESV Bible or more than one half of any book of the ESV Bible.</p>
+  <!-- required -->
+  <p>For more inspirational quotes: <a href="https://zenquotes.io/">https://zenquotes.io/</a></p>
+   
+  </div>
+</section>
 
     <!-- momentjs library -->
     <script

@@ -18,6 +18,9 @@ $(document).ready(function () {
   var sunrise = $("#sunrise");
   var sunset = $("#sunset");
 
+  var devotionalBtn = $("#devotionalBtn");
+  var zenQuoteBtn = $("#zenQuoteBtn");
+
   // FUNCTION DECLARATIONS
 
   // ask for user's locations from browser with window.navigator.geolocation
@@ -264,9 +267,36 @@ $(document).ready(function () {
       });
   }
 
+  //            AUTHOR: Zach              //
+  // -- Devotional or Inspirational Quote -- //
+  function devotionalCallAPI() {
+    var devotionalURL = ``;
+    $.ajax({
+      url: devotionalURL,
+      method: "GET",
+    }).then(function (response) {
+      console.log(response);
+    });
+  }
+
+  function zenQuotesCallAPI() {
+    var zenBase = "https://zenquotes.io/api/";
+    var zenURL = `${zenBase}today/`;
+    $.ajax({
+      url: zenURL,
+      method: "GET",
+    }).then(function (response) {
+      console.log(response);
+    });
+  }
+
   //      news articles with appropriate filters
   techNewsData();
   geolocateUser();
+
+  // EVENT HANDLERS
+  zenQuoteBtn.on("click", zenQuotesCallAPI);
+  devotionalBtn.on("click", devotionalCallAPI);
 
   // jQuery - keep code above the brackets below
 });
