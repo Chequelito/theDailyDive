@@ -14,7 +14,6 @@ $(document).ready(function () {
   var windGust = $("#windGust");
   var date = $("#date");
   var time = $("#time");
-  var weatherDesc = $("weatherDesc");
   var sunrise = $("#sunrise");
   var sunset = $("#sunset");
 
@@ -97,13 +96,18 @@ $(document).ready(function () {
 
       // update static html text with weather data
       $(cityName).text(response.name);
-      $(tempCurrent).text("Currently: " + response.main.temp + "°F");
+      $(tempCurrent).text(
+        "Currently: " +
+          response.main.temp +
+          "°F " +
+          "with " +
+          response.weather[0].description
+      );
       $(tempMax).text("High: " + response.main.temp_max + "°F");
       $(tempMin).text("Low: " + response.main.temp_min + "°F");
       $(humidity).text("Humidity: " + " " + response.main.humidity + "%");
       $(windSpeed).text("Wind Speed: " + response.wind.speed + "MPH");
       $(windGust).text("Wind Gusts: " + response.wind.gust + " MPH");
-      $(weatherDesc).text(response.weather[0].description);
       $(sunrise).text("Sunrise Time: " + sunriseObj);
       $(sunset).text("Sunset Time: " + sunsetObj);
     });
@@ -270,18 +274,28 @@ $(document).ready(function () {
   //            AUTHOR: Zach              //
   // -- Devotional or Inspirational Quote -- //
   function devotionalCallAPI() {
-    var devotionalURL = ``;
-    $.ajax({
-      url: devotionalURL,
-      method: "GET",
-    }).then(function (response) {
-      console.log(response);
-    });
+    var devotionalKey = "f612e699541adf9bea6c93e25b240c0304f6e2d7";
+    var devotionalURL = `https://api.esv.org/v3/passage/text/?q=John+11:35&q=${devotionalKey}`;
+
+    fetch(devotionalURL)
+      .then(function (response) {
+        return response.json();
+      })
+      .then(function (data) {
+        console.log(data);
+      });
+
+    // $.ajax({
+    //   url: devotionalURL,
+    //   method: "GET",
+    // }).then(function (response) {
+    //   console.log(response);
+    // });
   }
 
   function zenQuotesCallAPI() {
     var zenBase = "https://zenquotes.io/api/";
-    var zenURL = `${zenBase}today/`;
+    var zenURL = `${zenBase}today`;
     $.ajax({
       url: zenURL,
       method: "GET",
