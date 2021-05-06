@@ -2,24 +2,12 @@
 
 // jQuery
 $(document).ready(function () {
-  // feature/js-creation  //
-  //      author: Zach    //
-  //  Pseudo Code  //
 
+  // VARIABLE DECLARATIONS
+
+  // link html elements to js variables
   var cityName;
-  var tempMax;
-  var tempMin;
-  var humidity;
-  var windSpeed;
-  var windGust;
-  var date;
-  var time;
-  var weatherDesc;
-  var sunrise;
-  var sunset;
   var currentTemp;
-
-  var cityName;
   var tempMax;
   var tempMin;
   var humidity;
@@ -30,39 +18,30 @@ $(document).ready(function () {
   var weatherDesc;
   var sunrise;
   var sunset;
-
-  var newsBaseURL = "https://api.nytimes.com/svc/search/v2/articlesearch.json?";
-  var weatherBaseURL = "https://api.openweathermap.org/data/2.5/weather?";
-  var newsAPIKey = "B1bWnHrsG4FxF0rkw1Fg9cWo0bLCYrtE";
-  var weatherAPIKey = "24d3e77575ea6a3daa1e23b95dbe112f";
 
   // FUNCTION DECLARATIONS
 
-  // link html elements to js variables
-
-  // pull user's locations from browser with window.navigator.geolocation
-
+  // ask for user's locations from browser with window.navigator.geolocation
   function geolocateUser() {
     // if the location is successfully retrieved
     function onGeolocateSuccess(coordinates) {
-      const { latitude, longitude } = coordinates.coords;
-      console.log("user's coordinates: ", latitude, longitude);
+      //   const { latitude, longitude } = coordinates.coords;
+      //   console.log("user's coordinates: ", latitude, longitude);
 
-      // pass this obj to API's
+      // pass this obj to weather api
       var geolocationObj = {
         lat: coordinates.coords.latitude,
         lon: coordinates.coords.longitude,
       };
-      console.log(geolocationObj);
 
-      // call API's with geolocation
+      // call weather api with geolocationObj
       callWeatherAPI(geolocationObj);
-      //callNewsAPI(geolocationObj);
       //JG added function for grabbing global news object
-      callGlobalNewsAPI(geolocationObj);
+
+      callGlobalNewsAPI();
     }
 
-    // if there is an error
+    // if there is an error trying to grab geolocation
     function onGeolocateError(error) {
       console.warn(error.code, error.message);
 
@@ -84,10 +63,11 @@ $(document).ready(function () {
     }
   }
 
-  // call API'S
-  //      Weather
+  //            AUTHOR: Zach              //
+  // -- Weather based on user location -- //
   function callWeatherAPI(geolocationObj) {
-    console.log("weather api call function\n-----------");
+    var weatherBaseURL = "https://api.openweathermap.org/data/2.5/weather?";
+    var weatherAPIKey = "24d3e77575ea6a3daa1e23b95dbe112f";
     var weatherURL = `${weatherBaseURL}lat=${geolocationObj.lat}&lon=${geolocationObj.lon}&appid=${weatherAPIKey}&units=imperial`;
 
     $.ajax({
@@ -96,48 +76,87 @@ $(document).ready(function () {
     }).then(function (response) {
       console.log(response);
 
-      //grabbing todays date
-      var dateToday = new Date(response.dt * 1000).toLocaleDateString();
-      console.log(dateToday);
+      //   updates time and date every 1000 milliseconds
+      function updateTime() {
+        setInterval(function () {
+          var now = new Date();
+          var localTime = now.toLocaleTimeString();
+          var dateToday = now.toLocaleDateString();
 
-      // grabbing time
-      var localTime = new Date(response.dt * 1000).toLocaleTimeString();
-      console.log(localTime);
+          $(date).text(dateToday);
+          $(time).text(localTime);
+        }, 1000);
+      }
+      updateTime();
 
-      // sunrise/sunset time
+      // sunrise/sunset time formatted in HH:MM:SS
       sunriseObj = new Date(response.sys.sunrise * 1000).toLocaleTimeString();
       sunsetObj = new Date(response.sys.sunset * 1000).toLocaleTimeString();
-      console.log(sunriseObj);
-      console.log(sunsetObj);
 
-      // placing weather data into static html
-
+      // update static html text with weather data
       $(cityName).text(response.name);
       $(tempMax).text(response.main.temp_max);
       $(tempMin).text(response.main.temp_min);
       $(humidity).text(response.main.humidity);
       $(windSpeed).text(response.wind.speed);
       $(windGust).text(response.wind.gust);
-      $(date).text(dateToday);
-      $(time).text(localTime);
       $(weatherDesc).text(response.weather[0].description);
       $(sunrise).text(sunriseObj);
       $(sunset).text(sunsetObj);
     });
   }
-  //      News
-  // function callNewsAPI(geolocationObj) {
-  //   console.log("news api call function");
-  //   var newsURL = `${newsBaseURL}fq=news_desk:"technology"&glocations:${geolocationObj}&api-key=${newsAPIKey}`;
-  //   console.log(newsURL);
-  //   $.ajax({
-  //     url: "",
-  //     success: "",
-  //   });
-  // }
+
+  // ipstack retrieves user's location (city, region, and country) for local news
+  function callIpstackAPI() {
+    var ipstackAPIKey = "c2ea5ce2d2c3d8249ff25fa33fd14dd3";
+    var ipstackBaseURL = `http://api.ipstack.com/`;
+    // currently, the IP address is fixed to 134.201.250. In the future, we will use the user's IP address once I (Zach) figure out how to get that information.
+    var ipstackURL = `${ipstackBaseURL}134.201.250.155?access_key=${ipstackAPIKey}`;
+    $.ajax({
+      url: ipstackURL,
+      method: "GET",
+    }).then(function (response) {
+      console.log(response);
+
+      var ipstackObj = {
+        city: response.city,
+        region: response.region_name,
+        country: response.country_name,
+      };
+      // call local news and pass the name of user's city, region, and country
+      callLocalNewsAPI(ipstackObj.city, ipstackObj.region, ipstackObj.country);
+    });
+  }
+
+  // call ipstack, requires an IP address - currently using california IP address on line 111
+  callIpstackAPI();
+
+  //    -- Local News -- AUTHOR: Zach   //
+  function callLocalNewsAPI(city, region, country) {
+    // removes white spaces from variables
+    city = city.replace(/ /g, "");
+    region = region.replace(/ /g, "");
+    country = country.replace(/ /g, "");
+    var localNewsBaseURL =
+      "https://api.nytimes.com/svc/search/v2/articlesearch.json?";
+    var localNewsAPIKey = "B1bWnHrsG4FxF0rkw1Fg9cWo0bLCYrtE";
+    var localNewsURL = `${localNewsBaseURL}fq=glocations.contains:${city},${region},${country}&api-key=${localNewsAPIKey}`;
+    console.log(localNewsURL);
+    $.ajax({
+      url: localNewsURL,
+      Method: "GET",
+    }).then(function (response) {
+      console.log(response);
+
+      // alert user if there are no local news articles
+      if (response.response.docs.length === 0) {
+        alert("There are no local news stories at this time for " + city);
+      }
+    });
+  }
 
   ///JG global news object function
-  function callGlobalNewsAPI(geolocationObj) {
+  function callGlobalNewsAPI() {
     var globalNewsApiKey = "UCJMG4jj3LlXlGM9nUTRBZiy6aCx7huZ";
     var globalNewsUrl =
       "https://api.nytimes.com/svc/topstories/v2/world.json?api-key=" +
@@ -245,8 +264,6 @@ $(document).ready(function () {
       });
   }
 
-  // on page load, call functions to display:
-  //      weather based on location
   //      news articles with appropriate filters
   techNewsData();
   geolocateUser();
