@@ -2,22 +2,21 @@
 
 // jQuery
 $(document).ready(function () {
-
   // VARIABLE DECLARATIONS
 
   // link html elements to js variables
-  var cityName;
-  var currentTemp;
-  var tempMax;
-  var tempMin;
-  var humidity;
-  var windSpeed;
-  var windGust;
-  var date;
-  var time;
-  var weatherDesc;
-  var sunrise;
-  var sunset;
+  var cityName = $("#cityName");
+  var tempCurrent = $("#currentTemp");
+  var tempMax = $("#tempMax");
+  var tempMin = $("#tempMin");
+  var humidity = $("#");
+  var windSpeed = $("#windSpeed");
+  var windGust = $("#windGust");
+  var date = $("#date");
+  var time = $("#time");
+  var weatherDesc = $("weatherDesc");
+  var sunrise = $("#sunrise");
+  var sunset = $("#sunset");
 
   // FUNCTION DECLARATIONS
 
@@ -95,14 +94,15 @@ $(document).ready(function () {
 
       // update static html text with weather data
       $(cityName).text(response.name);
-      $(tempMax).text(response.main.temp_max);
-      $(tempMin).text(response.main.temp_min);
-      $(humidity).text(response.main.humidity);
-      $(windSpeed).text(response.wind.speed);
-      $(windGust).text(response.wind.gust);
+      $(tempCurrent).text("Currently: " + response.main.temp + "°F");
+      $(tempMax).text("High: " + response.main.temp_max + "°F");
+      $(tempMin).text("Low: " + response.main.temp_min + "°F");
+      $(humidity).text("Humidity: " + " " + response.main.humidity + "%");
+      $(windSpeed).text("Wind Speed: " + response.wind.speed + "MPH");
+      $(windGust).text("Wind Gusts: " + response.wind.gust + " MPH");
       $(weatherDesc).text(response.weather[0].description);
-      $(sunrise).text(sunriseObj);
-      $(sunset).text(sunsetObj);
+      $(sunrise).text("Sunrise Time: " + sunriseObj);
+      $(sunset).text("Sunset Time: " + sunsetObj);
     });
   }
 
@@ -182,7 +182,7 @@ $(document).ready(function () {
         console.log("Published Date: " + publishedDate);
         console.log("Short Url :" + shortUrl);
 
-        buildCard(title, abstract, publishedDate, shortUrl);
+        // buildCard(title, abstract, publishedDate, shortUrl);
       }
     });
   }
@@ -210,57 +210,57 @@ $(document).ready(function () {
       })
       .then(function (CurrentNewsTech) {
         console.log(CurrentNewsTech);
-        newsCards.innerHTML = `
-        <section class="news col-md-2 mb-3">
-          <div class="card">
-            <img
-              src="./assets/images/bill-wegener-CVIeAfFv4rM-unsplash.jpg"
-              class="card-img-top"
-              alt="..."
-            />
-            <div class="card-body">
-             <a href ="" src =""></a> <h2 class="title">this will hold the title${title}</h2></a>
-              <p class="card-text">
-               the abstract will go here${abstract}
-              </p>
-              <p>${publishdate}</p>
-            </div>
-          </div>
-        </section>
+        // newsCards.innerHTML = `
+        // <section class="news col-md-2 mb-3">
+        //   <div class="card">
+        //     <img
+        //       src="./assets/images/bill-wegener-CVIeAfFv4rM-unsplash.jpg"
+        //       class="card-img-top"
+        //       alt="..."
+        //     />
+        //     <div class="card-body">
+        //      <a href ="" src =""></a> <h2 class="title">this will hold the title${title}</h2></a>
+        //       <p class="card-text">
+        //        the abstract will go here${abstract}
+        //       </p>
+        //       <p>${publishdate}</p>
+        //     </div>
+        //   </div>
+        // </section>
 
-        <section class="news col-md-2 mb-3">
-          <div class="card">
-            <img
-              src="./assets/images/brooke-lark-RMcJIvxhuW0-unsplash.jpg"
-              class="card-img-top"
-              alt="..."
-            />
-            <div class="card-body">
-              <a href ="" src =""></a> <h2 class="title">this will hold the title${title}</h2></a>
-              <p class="card-text">
-                the abstract will go here${abstract}
-                <p>${publishdate}</p>
-              </p>
-            </div>
-          </div>
-        </section>
+        // <section class="news col-md-2 mb-3">
+        //   <div class="card">
+        //     <img
+        //       src="./assets/images/brooke-lark-RMcJIvxhuW0-unsplash.jpg"
+        //       class="card-img-top"
+        //       alt="..."
+        //     />
+        //     <div class="card-body">
+        //       <a href ="" src =""></a> <h2 class="title">this will hold the title${title}</h2></a>
+        //       <p class="card-text">
+        //         the abstract will go here${abstract}
+        //         <p>${publishdate}</p>
+        //       </p>
+        //     </div>
+        //   </div>
+        // </section>
 
-        <section class="news col-md-2 mb-3">
-          <div class="card">
-            <img
-              src="./assets/images/stephen-cook-ycduJobBI24-unsplash.jpg"
-              class="card-img-top"
-              alt="..."
-            />
-            <div class="card-body">
-             <a href ="" src =""></a> <h2 class="title">this will hold the title${title}</h2></a>
-              <p class="card-text">
-               the abstract will go here${abstract}
-              </p>
-              <p>${publishdate}</p>
-            </div>
-          </div>
-        </section>`;
+        // <section class="news col-md-2 mb-3">
+        //   <div class="card">
+        //     <img
+        //       src="./assets/images/stephen-cook-ycduJobBI24-unsplash.jpg"
+        //       class="card-img-top"
+        //       alt="..."
+        //     />
+        //     <div class="card-body">
+        //      <a href ="" src =""></a> <h2 class="title">this will hold the title${title}</h2></a>
+        //       <p class="card-text">
+        //        the abstract will go here${abstract}
+        //       </p>
+        //       <p>${publishdate}</p>
+        //     </div>
+        //   </div>
+        // </section>`;
       });
   }
 
