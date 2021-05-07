@@ -5,16 +5,18 @@ $(document).ready(function () {
   //TODO create button listeners for global, local, technology news calls
 
   // News article with appropriate filters
-  // callIpAPI();
   geolocateUser();
   // technologyNewsData();
 
   // VARIABLE DECLARATIONS
-  var quoteBtn = $("#zenQuoteBtn");
-  var devotionalBtn = $("#devotionalBtn");
+  var localNewsBtn = $("#localNewsBtn");
   var globalNewsBtn = $("#globalNewsBtn");
   var technologyNewsBtn = $("#technologyNewsBtn");
-  var localNewsBtn = $("localNewsBtn");
+  var quoteBtn = $("#zenQuoteBtn");
+  var devotionalBtn = $("#devotionalBtn");
+  var cityName = "";
+  var longitude = "";
+  var latitude = "";
 
   // ask for user's locations from browser with window.navigator.geolocation
   function geolocateUser() {
@@ -25,7 +27,8 @@ $(document).ready(function () {
         lat: coordinates.coords.latitude,
         lon: coordinates.coords.longitude,
       };
-
+      longitude = coordinates.coords.longitude;
+      latitude = coordinates.coords.latitude;
       // call weather api with geolocationObj
       callWeatherAPI(geolocationObj);
     }
@@ -59,7 +62,7 @@ $(document).ready(function () {
     var weatherAPIKey = "24d3e77575ea6a3daa1e23b95dbe112f";
     var weatherURL = `${weatherBaseURL}lat=${geolocationObj.lat}&lon=${geolocationObj.lon}&appid=${weatherAPIKey}&units=imperial`;
     // link html elements to js variables
-    var cityName = $("#cityName");
+    cityName = $("#cityName");
     var tempCurrent = $("#currentTemp");
     var tempMax = $("#tempMax");
     var tempMin = $("#tempMin");
@@ -115,26 +118,17 @@ $(document).ready(function () {
   }
 
   // JG retrieves user's external IP (city, region, and country) for local news
-  function callIpAPI() {
+  function callIpAPI(longitude, latitude) {
     //call ipify geolocation api key and url
-    var geoApiKey = "at_0YiSfhoxK70ap9ecG6pYXXKIcktmj";
-    var geoApiUrl = "https://geo.ipify.org/api/v1?apiKey=" + geoApiKey;
-
+    console.log("IN CALLIPAPI FUNCTION");
+    var geoApiUrl = `https://api.bigdatacloud.net/data/reverse-geocode-client?latitude${latitude}&longitude=${longitude}&localityLanguage=en`;
     $.ajax({
       url: geoApiUrl,
       method: "GET",
     }).then(function (response) {
-      console.log("IN CALLIPAPI FUNCTION");
-      console.log(response);
-      console.log("IP :" + response.ip);
-      console.log("CITY: " + response.location.city);
-      console.log("REGION: " + response.location.region);
-      console.log("COUNTRY: " + response.location.country);
-      console.log("LATITUDE: " + response.location.lat);
-      console.log("LONGITUDE: " + response.location.lng);
-      var city = response.location.city;
-      var region = response.location.region;
-      var country = response.location.country;
+      var city = response.city;
+      var region = response.localityInfo.administrative[1].name;
+      var country = response.countryCode;
 
       // call local news and pass the name of user's city, region, and country
       callLocalNewsAPI(city, region, country);
@@ -166,8 +160,7 @@ $(document).ready(function () {
         var publishedDate = localNewsData[i].pub_date;
         var shortUrl = localNewsData[i].web_url;
         publishedDate = moment().format("MMM Do YYYY");
-        //var newsClass = "local";
-        //buildContainer(newsClass, title, abstract, publishedDate, shortUrl);
+
         buildCard(title, abstract, publishedDate, shortUrl);
       }
     });
@@ -195,8 +188,7 @@ $(document).ready(function () {
         var publishedDate = globalNewsData[i].published_date;
         var shortUrl = globalNewsData[i].short_url;
         publishedDate = moment().format("MMM Do YYYY");
-        //var newsClass = "global";
-        //buildContainer(newsClass, title, abstract, publishedDate, shortUrl);
+
         buildCard(title, abstract, publishedDate, shortUrl);
       }
     });
@@ -206,7 +198,7 @@ $(document).ready(function () {
   function technologyNewsData() {
     var techApiKey = "UAm8GChwLgFlI7l9sL58gMBAlx1H3XT3";
     var techUrl = `https://api.nytimes.com/svc/topstories/v2/technology.json?api-key=${techApiKey}`;
-    console.log("tech News Api Function Call");
+    console.log("IN TECH NEWS FUNCTION CALL");
     fetch(techUrl)
       .then(function (response) {
         return response.json();
@@ -223,12 +215,7 @@ $(document).ready(function () {
           var publishedDate = results[i].published_date;
           publishedDate = moment().format("MMM Do YYYY");
           var shortUrl = results[i].short_url;
-          console.log("Title: " + title);
-          console.log("abstract: " + abstract);
-          console.log("published date: " + publishedDate);
-          console.log("short url: " + shortUrl);
-          //var newsClass = "tech";
-          //buildContainer(newsClass, title, abstract, publishedDate, shortUrl);
+
           buildCard(title, abstract, publishedDate, shortUrl);
         }
       });
@@ -241,7 +228,7 @@ $(document).ready(function () {
     // newsCards.setAttribute("display", "flex");
     //***Section Container For Individual Card***//
     var section = document.createElement("section");
-    section.setAttribute("class", " row news"); //col-md-2 mb-3
+    section.setAttribute("class", " row news");
     section.setAttribute("class", "col-sm-2");
     section.setAttribute("width", "150px");
     newsCards.appendChild(section);
@@ -280,66 +267,70 @@ $(document).ready(function () {
     publishDatePara.appendChild(dateText);
 
     divBody.appendChild(publishDatePara);
-    console.log(newsCards);
+    //console.log(newsCards);
   }
 
   //            AUTHOR: Zach              //
   // -- Devotional or Inspirational Quote -- //
   function devotionalCallAPI() {
     var devotionalURL = `https://www.abibliadigital.com.br/api/verses/bbe/random`;
-    var devotionalParent = $("#devotional-parent");
-    var devotionalID = $("#devotional-id");
-    var devotionalAuthor = $("#devotional-author");
+    var newsCards = document.getElementById("contentBlock");
+    newsCards.innerHTML = "";
+    // var devotionalParent = $("#devotional-parent");
+    // var devotionalID = $("#devotional-id");
+    // var devotionalAuthor = $("#devotional-author");
     $.ajax({
       url: devotionalURL,
       method: "GET",
     }).then(function (response) {
       console.log(response);
+      var devotionalID = response.text;
 
-      devotionalParent.removeClass("hidden");
-
-      devotionalID.text('"' + response.text + '"');
-      devotionalAuthor.text(
-        response.book.name + " " + response.chapter + ":" + response.number
-      );
+      var section = document.createElement("section");
+      section.setAttribute("class", "row news");
+      section.setAttribute("class", "col-sm-4");
+      section.setAttribute("width", "150px");
+      newsCards.appendChild(section);
+      var divCard = document.createElement("div");
+      divCard.setAttribute("class", "card");
+      divCard.setAttribute("width", "250px");
+      divCard.textContent = devotionalID;
+      section.appendChild(divCard);
     });
   }
 
   function quotesCallAPI() {
     var quoteURL = "https://api.quotable.io/random";
-    var quoteParent = $("#quote-parent");
-    var quoteID = $("#quote-id");
-    var quoteAuthor = $("#quote-author");
-
+    var newsCards = document.getElementById("contentBlock");
+    newsCards.innerHTML = "";
     $.ajax({
       url: quoteURL,
       method: "GET",
     }).then(function (response) {
-      console.log(response);
+      var quoteContent = response.content;
+      var quoteAuthor = response.author;
 
-      quoteParent.removeClass("hidden");
-
-      quoteID.text('"' + response.content + '"');
-      quoteAuthor.text("~ " + response.author);
+      var section = document.createElement("section");
+      section.setAttribute("class", " row news col-sm-4");
+      section.setAttribute("width", "150px");
+      newsCards.appendChild(section);
+      var divCard = document.createElement("div");
+      divCard.setAttribute("class", "card");
+      divCard.setAttribute("id", "quoteID");
+      divCard.textContent = quoteContent + " ~ " + quoteAuthor;
+      section.appendChild(divCard);
     });
-
-    // fetch(quoteURL)
-    //   .then(function (response) {
-    //     return response.json();
-    //   })
-    //   .then(function (data) {
-    //     console.log(data);
-    //   });
   }
 
-  // EVENT HANDLERS
-  quoteBtn.on("click", quotesCallAPI);
-  devotionalBtn.on("click", devotionalCallAPI);
-
   //added news card event handlers --JG
+  localNewsBtn.on("click", function () {
+    callIpAPI(longitude, latitude);
+  });
+
   globalNewsBtn.on("click", callGlobalNewsAPI);
   technologyNewsBtn.on("click", technologyNewsData);
-  localNewsBtn.on("click", callIpAPI);
+  quoteBtn.on("click", quotesCallAPI);
+  devotionalBtn.on("click", devotionalCallAPI);
 
   // jQuery - keep code above the brackets below
 });
