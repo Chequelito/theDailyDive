@@ -5,20 +5,21 @@ $(document).ready(function () {
   //TODO create button listeners for global, local, technology news calls
 
   // News article with appropriate filters
-  callIpAPI();
-  geolocateUser();
 
   // VARIABLE DECLARATIONS
+  var shareLocation = $("#share-location-btn");
   var quoteBtn = $("#zenQuoteBtn");
   var devotionalBtn = $("#devotionalBtn");
   var globalNewsBtn = $("#globalNewsBtn");
   var technologyNewsBtn = $("#technologyNewsBtn");
   var localNewsBtn = $("localNewsBtn");
+  var accordionContainer = $("#accordion");
 
   // ask for user's locations from browser with window.navigator.geolocation
   function geolocateUser() {
     // if the location is successfully retrieved
     function onGeolocateSuccess(coordinates) {
+      shareLocation.addClass("hidden");
       // pass this obj to weather api
       var geolocationObj = {
         lat: coordinates.coords.latitude,
@@ -27,6 +28,7 @@ $(document).ready(function () {
 
       // call weather api with geolocationObj
       callWeatherAPI(geolocationObj);
+      callForecastAPI(geolocationObj);
     }
 
     // if there is an error trying to grab geolocation
@@ -114,6 +116,57 @@ $(document).ready(function () {
     });
   }
 
+  //             AUTHOR: Zach               //
+  //            -- Forecast --              //
+  function callForecastAPI(obj) {
+    var forecastAPIKey = "24d3e77575ea6a3daa1e23b95dbe112f";
+    var forecastURL = `https://api.openweathermap.org/data/2.5/onecall?lat=${obj.lat}&lon=${obj.lon}&exclude=current,minutely,alerts&appid=${forecastAPIKey}&units=imperial`;
+    var forecastContainer = $("#forecast-container");
+    $.ajax({
+      url: forecastURL,
+      method: "GET",
+    }).then(function (response) {
+      console.log(response);
+      // remove hidden class from container
+      forecastContainer.removeClass("hidden");
+
+      // Forecast code below
+      var scrollParent = $("#scroll-parent");
+      var forecastArr = [];
+      for (var i = 0; i < 5; i++) {
+        var forecast = response.daily[i + 1];
+        forecastArr.push(forecast);
+
+        var cardDate = new Date(forecastArr[i].dt * 1000).toLocaleDateString();
+
+        var card = $("<div>");
+        card.attr("class", "card card-body weather m-3");
+        scrollParent.append(card);
+
+        var cardTitle = $(
+          "<h2>" + "<strong>" + cardDate + "</strong>" + "</h2>"
+        );
+        cardTitle.attr("class", "title");
+
+        var cardTemp = $(
+          "<p>" + "Temperature: " + forecastArr[i].temp.day + "°F" + "</p>"
+        );
+        cardTemp.attr("class", "card-text");
+
+        var cardWind = $(
+          "<p>" + "Wind Speed: " + forecastArr[i].wind_speed + " MPH" + "</p>"
+        );
+        cardWind.attr("class", "card-text");
+
+        var cardHumid = $(
+          "<p>" + "Humidity: " + forecastArr[i].humidity + "%" + "</p>"
+        );
+        cardHumid.attr("class", "card-text");
+        card.append(cardTitle, cardTemp, cardWind, cardHumid);
+      }
+    });
+  }
+
   // JG retrieves user's external IP (city, region, and country) for local news
   function callIpAPI() {
     //call ipify geolocation api key and url
@@ -124,20 +177,24 @@ $(document).ready(function () {
       url: geoApiUrl,
       method: "GET",
     }).then(function (response) {
-      console.log("IN CALLIPAPI FUNCTION");
       console.log(response);
       console.log("IP :" + response.ip);
-      console.log("CITY: " + response.location.city);
-      console.log("REGION: " + response.location.region);
-      console.log("COUNTRY: " + response.location.country);
-      console.log("LATITUDE: " + response.location.lat);
-      console.log("LONGITUDE: " + response.location.lng);
-      var city = response.location.city;
-      var region = response.location.region;
-      var country = response.location.country;
+
+      var geolocationObj = {
+        city: response.location.city,
+        region: response.location.region,
+        country: response.location.country,
+        lat: response.location.lat,
+        lon: response.location.lng,
+      };
+
+      callLocalNewsAPI(
+        geolocationObj.city,
+        geolocationObj.region,
+        geolocationObj.country
+      );
 
       // call local news and pass the name of user's city, region, and country
-      callLocalNewsAPI(city, region, country);
     });
   }
 
@@ -279,7 +336,6 @@ $(document).ready(function () {
     var devotionalURL = `https://www.abibliadigital.com.br/api/verses/bbe/random`;
     var devotionalParent = $("#devotional-parent");
     var devotionalID = $("#devotional-id");
-    var devotionalAuthor = $("#devotional-author");
     $.ajax({
       url: devotionalURL,
       method: "GET",
@@ -289,9 +345,6 @@ $(document).ready(function () {
       devotionalParent.removeClass("hidden");
 
       devotionalID.text('"' + response.text + '"');
-      devotionalAuthor.text(
-        response.book.name + " " + response.chapter + ":" + response.number
-      );
     });
   }
 
@@ -322,9 +375,13 @@ $(document).ready(function () {
     //   });
   }
 
+  // jQuery UI Widget -Zach
+  accordionContainer.accordion();
+
   // EVENT HANDLERS
   quoteBtn.on("click", quotesCallAPI);
   devotionalBtn.on("click", devotionalCallAPI);
+  shareLocation.on("click", geolocateUser);
 
   //added news card event handlers --JG
   globalNewsBtn.on("click", callGlobalNewsAPI);

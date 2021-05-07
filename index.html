@@ -5,179 +5,74 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
+    <!-- custom-style -->
+    <link rel="stylesheet" href="./assets/style/style.css" />
+    <!-- bootstrap style -->
     <link
       rel="stylesheet"
       href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css"
       integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l"
       crossorigin="anonymous"
     />
-    <link rel="stylesheet" href="./assets/style/style.css" />
+    <!-- jquery ui style -->
+    <link
+      rel="stylesheet"
+      href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css"
+    />
 
     <title>The Daily Dive</title>
   </head>
 
-<body>
-  <header>
-    <div class="jumbotron jumbotron-fluid">
-      <div class="container">
-        <h1 class="lead display-4">The Daily Dive</h1>
-        <p class="lead">
-          This is a modified jumbotron that occupies the entire horizontal
-          space of its parent.
-        </p>
+  <body>
+    <header>
+      <div class="jumbotron jumbotron-fluid bg-primary">
+        <div class="container">
+          <h1 class="lead display-4">The Daily Dive</h1>
+          <p class="lead">
+            Welcome to 'The Daily Dive'! This convenient webpage is your new
+            one-stop, home-screen! Here, you can get useful information and
+            encouragement at the beginning of your day, all in one place!
+          </p>
+        </div>
       </div>
-    </div>
-  </header>
-  <section class="row align-items-center">
-    <div class="card col-med-5 ml-5 mb-5 pl-5" style="width: 20rem; height: 25rem;">
-      <div>
-        <h1 class="row font-weight-bold" id="cityName">Allow location</h1>
-        <h2 class="row" id="date"></h2>
-        <h3 class="row mb-3" id="time"></h3>
-        <div class="row mb-3" id="currentTemp"></div>
+    </header>
+
+    <section class="row align-items-center">
+      <div
+        class="card col-med-5 ml-5 mb-5 pl-5"
+        style="width: 20rem; height: 25rem"
+      >
+        <div>
+          <h1 class="row font-weight-bold" id="cityName"></h1>
+          <h2 class="row" id="date"></h2>
+          <h3 class="row mb-3" id="time"></h3>
+          <div class="row mb-3" id="currentTemp">Get weather in your area:</div>
+          <button id="share-location-btn">Share Location</button>
+        </div>
+        <div class="row mb-3">
+          <div class="col-med-2" id="tempMin"></div>
+          <div class="col-med-2 ml-3" id="tempMax"></div>
+        </div>
+        <div>
+          <div class="row mb-3 col-med-2" id="sunrise"></div>
+          <div class="row mb-3 col-med-2" id="sunset"></div>
+          <div class="row mb-3 col-med-2" id="windSpeed"></div>
+          <div class="row mb-3 col-med-2" id="windGust"></div>
+        </div>
+        <section>
+          <button id="devotionalBtn">Devotional</button>
+          <button id="zenQuoteBtn">Inspirational Quote</button>
+        </section>
       </div>
-      <div class="row mb-3">        
-        <div class="col-med-2" id="tempMin"></div>    
-        <div class="col-med-2 ml-3" id="tempMax"></div>
-      </div>
-      <div>   
-        <div class="row mb-3 col-med-2" id="sunrise"></div>            
-        <div class="row mb-3 col-med-2" id="sunset"></div>
-        <div class="row mb-3 col-med-2" id="windSpeed"></div>        
-        <div class="row mb-3 col-med-2" id="windGust"></div>              
-      </div>
-      <section>       
-        <button id="devotionalBtn">Devotional</button>
-        <button id="zenQuoteBtn">Inspirational Quote</button>
+
+      <!-- forecast container -->
+      <!-- scroll cards dynamically generated-->
+      <section class="container-fluid col" id="forecast-container">
+        <div class="row flex-row flex-nowrap" id="scroll-parent"></div>
       </section>
-      
-     <section class="upcoming container-fluid">
-      <div class="row  flex-row flex-nowrap">             
-        <section class="mb-3">
-          <div class="weather card">
-            <div class="card-body">
-              <h2 class="title">In an hour</h2>
-              <p class="card-text">
-                Some quick example text to build on the card title and make up the
-                bulk of the card's content.
-               </p>
-            </div>
-          </div>
-        </section>
-    
-        <section class="mb-3">
-          <div class="weather card">
-            <div class="card-body">
-              <h2 class="title">In two hours</h2>
-              <p class="card-text">
-                Some quick example text to build on the card title and make up the
-                bulk of the card's content.
-                 </p>
-            </div>
-          </div>
-        </section>
-
-
-        <section class="mb-3">
-          <div class="weather card">
-            <div class="card-body">
-              <h2 class="title">In three hours</h2>
-              <p class="card-text">
-                Some quick example text to build on the card title and make up the
-                bulk of the card's content.
-              </p>
-            </div>
-          </div>
-        </section>
-        
-        <section class="mb-3">
-          <div class="weather card">
-            <div class="card-body">
-              <h2 class="title">In four hours</h2>
-              <p class="card-text">
-                Some quick example text to build on the card title and make up the
-                bulk of the card's content.
-              </p>
-            </div>
-          </div>
-        </section>
-
-
-        <section class="mb-3">
-          <div class="weather card">
-            <div class="card-body">
-              <h2 class="title">In five hours</h2>
-              <p class="card-text">
-                Some quick example text to build on the card title and make up the
-                bulk of the card's content.
-              </p>
-            </div>
-          </div>
-        </section>
-
-        <section class="mb-3">
-          <div class="weather card">
-            <div class="card-body">
-              <h2 class="title">In six hours</h2>
-              <p class="card-text">
-                Some quick example text to build on the card title and make up the
-                bulk of the card's content.
-              </p>
-            </div>
-          </div>
-        </section>
-
-        <section class="mb-3">
-          <div class="weather card">
-            <div class="card-body">
-              <h2 class="title">In seven hours</h2>
-              <p class="card-text">
-                Some quick example text to build on the card title and make up the
-                bulk of the card's content.
-              </p>
-            </div>
-          </div>
-        </section>
-        
-        <section class="mb-3">
-          <div class="weather card">
-            <div class="card-body">
-              <h2 class="title">In eight hours</h2>
-              <p class="card-text">
-                Some quick example text to build on the card title and make up the
-                bulk of the card's content.
-              </p>
-            </div>
-          </div>
-        </section>
-
-        <section class="mb-3">
-          <div class="weather card">
-            <div class="card-body">
-              <h2 class="title">Tomorrow</h2>
-              <p class="card-text">
-                Some quick example text to build on the card title and make up the
-                bulk of the card's content.
-              </p>
-            </div>
-          </div>
-        </section>
-
-        <section class="mb-3">
-          <div class="weather card">
-            <div class="card-body">
-              <h2 class="title">The next day</h2>
-              <p class="card-text">
-                Some quick example text to build on the card title and make up the
-                bulk of the card's content.
-              </p>
-            </div>
-          </div>
-        </section>
-      </div>
     </section>
 
-    <div class="row justify-content-around">
+    <div class="row">
       <section class="col-med-3 ml-5">
         <h3>Categories:</h3>
         <div class="card" style="width: 18rem">
@@ -209,24 +104,22 @@
           </ul>
         </div>
       </section>
-<!-- Dynamic news card generation here  -->
-      <section id="newsCards">
-        
-      </section>
+      <!-- Dynamic news card generation here  -->
+      <section id="newsCards"></section>
     </div>
 
-  <!-- //            AUTHOR: Zach              //
+    <!-- //            AUTHOR: Zach              //
   // -- Devotional or Inspirational Quote DISPLAY -- // -->
-  <section>
-    <div id="quote-parent" class="hidden ml-5">
-      <h2 id="quote-id" class="font-italic"></h2>
-      <h4 id="quote-author"></h4>
-    </div>
-    <div id="devotional-parent" class="hidden ml-5">
-      <h2 id="devotional-id" class="font-italic"></h2>
-      <h4 id="devotional-author"></h4>
-    </div>
-  </section>
+    <section>
+      <div id="quote-parent" class="hidden ml-5">
+        <h2 id="quote-id" class="font-italic"></h2>
+        <h4 id="quote-author"></h4>
+      </div>
+      <div id="devotional-parent" class="hidden ml-5">
+        <h2 id="devotional-id" class="font-italic"></h2>
+        <h4 id="devotional-author"></h4>
+      </div>
+    </section>
 
     <!-- momentjs library -->
     <script
@@ -234,18 +127,12 @@
       src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.27.0/moment.min.js"
     ></script>
     <!-- jquery cdn -->
-    <script
-      src="https://code.jquery.com/jquery-1.12.4.min.js"
-      integrity="sha256-ZosEbRLbNQzLpnKIkEdrPv7lOy9C27hHQ+Xp8a4MxAQ="
-      crossorigin="anonymous"
-    ></script>
-    <script
-      src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.min.js"
-      integrity="sha384-+YQ4JLhjyBLPDQt//I+STsc9iw4uQqACwlvpslubQzn4u2UU2UFM80nGisd026JF"
-      crossorigin="anonymous"
-    ></script>
-    <script src="./assets/js/script.js
-
-    "></script>
+    <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
+    <!-- jquery UI cdn -->
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
+    <!-- bootstrap -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.min.js"></script>
+    <!-- main JS -->
+    <script src="./assets/js/script.js"></script>
   </body>
 </html>

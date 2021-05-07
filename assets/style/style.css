@@ -41,9 +41,14 @@
   position: relative;
   overflow: scroll;
   filter: drop-shadow(0 0 10px #0003);
-  width: 65%;
   height: 15rem;
 }
+
+#scroll-parent {
+  overflow: scroll;
+  filter: drop-shadow(0 0 10px #0003);
+}
+
 .weather {
   width: 12rem;
 }
