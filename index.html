@@ -24,8 +24,10 @@
   </head>
 
   <body>
-    <header>
-      <div class="jumbotron jumbotron-fluid bg-primary">
+
+    <!-- ***Main Header*** -->                              
+    <header id="headerBackground">
+      <div class="jumbotron jumbotron-fluid">
         <div class="container">
           <h1 class="lead display-4">The Daily Dive</h1>
           <p class="lead">
@@ -37,78 +39,91 @@
       </div>
     </header>
 
-    <section class="row align-items-center">
-      <div
-        class="card col-med-5 ml-5 mb-5 pl-5"
-        style="width: 20rem; height: 25rem"
-      >
-        <div>
-          <h1 class="row font-weight-bold" id="cityName"></h1>
-          <h2 class="row" id="date"></h2>
-          <h3 class="row mb-3" id="time"></h3>
-          <div class="row mb-3" id="currentTemp">Get weather in your area:</div>
-          <button id="share-location-btn">Share Location</button>
-        </div>
-        <div class="row mb-3">
-          <div class="col-med-2" id="tempMin"></div>
-          <div class="col-med-2 ml-3" id="tempMax"></div>
-        </div>
-        <div>
-          <div class="row mb-3 col-med-2" id="sunrise"></div>
-          <div class="row mb-3 col-med-2" id="sunset"></div>
-          <div class="row mb-3 col-med-2" id="windSpeed"></div>
-          <div class="row mb-3 col-med-2" id="windGust"></div>
-        </div>
-        <section>
-          <button id="devotionalBtn">Devotional</button>
-          <button id="zenQuoteBtn">Inspirational Quote</button>
+    <!-- ***Parent Container for Weather*** -->
+    <div class="row">
+      <div class="col-sm-3">
+        <section class="row align-items-center">
+          <div
+            class="card col-med-5 ml-5 mb-5 pl-5"
+            style="width: 20rem; height: 25rem"
+          >
+            <div>
+              <h1 class="row font-weight-bold" id="cityName"></h1>
+              <h2 class="row" id="date"></h2>
+              <h3 class="row mb-3" id="time"></h3>
+              <div class="row mb-3" id="currentTemp">Get weather in your area:</div>
+              <button id="share-location-btn">Share Location</button>
+            </div>
+            <div class="row mb-3">
+              <div class="col-med-2" id="tempMin"></div>
+              <div class="col-med-2 ml-3" id="tempMax"></div>
+            </div>
+            <div>
+              <div class="row mb-3 col-med-2" id="windSpeed"></div>
+              <div class="row mb-3 col-med-2" id="windGust"></div>
+              <div class="row mb-3 col-med-2" id="sunrise"></div>
+              <div class="row mb-3 col-med-2" id="sunset"></div>
+            </div>
+          </div>
         </section>
       </div>
-
+      
       <!-- forecast container -->
       <!-- scroll cards dynamically generated-->
-      <section class="container-fluid col upcoming" id="forecast-container">
+      <section class="container-fluid col-sm-9 upcoming" id="forecast-container">
         <div class="row flex-row flex-nowrap" id="scroll-parent"></div>
       </section>
-    </section>
-
+    </section>     
+  </div>
+  
+  
+    <!--***Parent Container for 2nd Row Generating Cards *** -->
     <div class="row">
-      <section class="col-med-3 ml-5">
-        <h3>Categories:</h3>
-        <div class="card" style="width: 18rem">
-          <div class="card-header">Featured</div>
-          <ul class="list-group list-group-flush">
-            <a
-              href="#"
-              class="tools list-group-item list-group-item-action"
-              aria-current="true"
-            >
-              The current link item
-            </a>
-            <a href="#" class="tools list-group-item list-group-item-action"
-              >A second link item</a
-            >
-            <a href="#" class="tools list-group-item list-group-item-action"
-              >A third link item</a
-            >
-            <a href="#" class="tools list-group-item list-group-item-action"
-              >A fourth link item</a
-            >
-            <a
-              href="#"
-              class="list-group-item list-group-item-action disabled"
-              tabindex="-1"
-              aria-disabled="true"
-              >A disabled link item</a
-            >
-          </ul>
-        </div>
-      </section>
-      <!-- Dynamic news card generation here  -->
-      <section id="newsCards"></section>
+      <div class="col-sm-3">
+        <section class="col-med-5 ml-1 mb-5 pl-4">
+          <h3>Categories:</h3>
+          <div class="card" style="width: 18rem">
+            <ul class="list-group list-group-flush">
+              <button
+                id="localNewsBtn"
+                class="tools list-group-item list-group-item-action"
+              >
+                Local News
+              </button>
+              <button
+                id="globalNewsBtn"
+                class="tools list-group-item list-group-item-action"
+              >
+                Global News
+              </button>
+              <button
+                id="technologyNewsBtn"
+                class="tools list-group-item list-group-item-action"
+              >
+                Technology News
+              </button>
+              <button
+                id="zenQuoteBtn"
+                class="tools list-group-item list-group-item-action"
+              >
+                Zen Quotes
+              </button>
+              <button
+                id="devotionalBtn"
+                class="tools list-group-item list-group-item-action"
+              >
+                Devotional
+              </button>
+            </ul>
+          </div>
+        </section>
+      </div>
+      <div class="col-sm-9">
+        <div class="row" id="contentBlock"></div>
+      </div>
     </div>
 
-    <!-- //            AUTHOR: Zach              //
+<!-- //            AUTHOR: Zach              //
   // -- Devotional or Inspirational Quote DISPLAY -- // -->
     <section>
       <div id="quote-parent" class="hidden ml-5">
@@ -120,19 +135,25 @@
         <h4 id="devotional-author"></h4>
       </div>
     </section>
-
+  
+    <!--***Script Links**-->
     <!-- momentjs library -->
     <script
       type="text/javascript"
       src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.27.0/moment.min.js"
     ></script>
     <!-- jquery cdn -->
-    <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
-    <!-- jquery UI cdn -->
-    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
-    <!-- bootstrap -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.min.js"></script>
-    <!-- main JS -->
-    <script src="./assets/js/script.js"></script>
+    <script
+      src="https://code.jquery.com/jquery-1.12.4.min.js"
+      integrity="sha256-ZosEbRLbNQzLpnKIkEdrPv7lOy9C27hHQ+Xp8a4MxAQ="
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.min.js"
+      integrity="sha384-+YQ4JLhjyBLPDQt//I+STsc9iw4uQqACwlvpslubQzn4u2UU2UFM80nGisd026JF"
+      crossorigin="anonymous"
+    ></script>
+    <script src="./assets/js/script.js
+    "></script>
   </body>
 </html>
