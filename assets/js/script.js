@@ -18,7 +18,7 @@ $(document).ready(function () {
   var sunset = $("#sunset");
 
   var devotionalBtn = $("#devotionalBtn");
-  var zenQuoteBtn = $("#zenQuoteBtn");
+  var quoteBtn = $("#zenQuoteBtn");
 
   // FUNCTION DECLARATIONS
 
@@ -107,7 +107,9 @@ $(document).ready(function () {
       $(tempMin).text("Low: " + response.main.temp_min + "°F");
       $(humidity).text("Humidity: " + " " + response.main.humidity + "%");
       $(windSpeed).text("Wind Speed: " + response.wind.speed + "MPH");
-      $(windGust).text("Wind Gusts: " + response.wind.gust + " MPH");
+      if (response.wind.gust) {
+        $(windGust).text("Wind Gusts: " + response.wind.gust + " MPH");
+      }
       $(sunrise).text("Sunrise Time: " + sunriseObj);
       $(sunset).text("Sunset Time: " + sunsetObj);
     });
@@ -274,34 +276,50 @@ $(document).ready(function () {
   //            AUTHOR: Zach              //
   // -- Devotional or Inspirational Quote -- //
   function devotionalCallAPI() {
-    var devotionalKey = "f612e699541adf9bea6c93e25b240c0304f6e2d7";
-    var devotionalURL = `https://api.esv.org/v3/passage/text/?q=John+11:35&q=${devotionalKey}`;
-
-    fetch(devotionalURL)
-      .then(function (response) {
-        return response.json();
-      })
-      .then(function (data) {
-        console.log(data);
-      });
-
-    // $.ajax({
-    //   url: devotionalURL,
-    //   method: "GET",
-    // }).then(function (response) {
-    //   console.log(response);
-    // });
-  }
-
-  function zenQuotesCallAPI() {
-    var zenBase = "https://zenquotes.io/api/";
-    var zenURL = `${zenBase}today`;
+    var devotionalURL = `https://www.abibliadigital.com.br/api/verses/bbe/random`;
+    var devotionalParent = $("#devotional-parent");
+    var devotionalID = $("#devotional-id");
+    var devotionalAuthor = $("#devotional-author");
     $.ajax({
-      url: zenURL,
+      url: devotionalURL,
       method: "GET",
     }).then(function (response) {
       console.log(response);
+
+      devotionalParent.removeClass("hidden");
+
+      devotionalID.text('"' + response.text + '"');
+      devotionalAuthor.text(
+        response.book.name + " " + response.chapter + ":" + response.number
+      );
     });
+  }
+
+  function quotesCallAPI() {
+    var quoteURL = "https://api.quotable.io/random";
+    var quoteParent = $("#quote-parent");
+    var quoteID = $("#quote-id");
+    var quoteAuthor = $("#quote-author");
+
+    $.ajax({
+      url: quoteURL,
+      method: "GET",
+    }).then(function (response) {
+      console.log(response);
+
+      quoteParent.removeClass("hidden");
+
+      quoteID.text('"' + response.content + '"');
+      quoteAuthor.text("~ " + response.author);
+    });
+
+    // fetch(quoteURL)
+    //   .then(function (response) {
+    //     return response.json();
+    //   })
+    //   .then(function (data) {
+    //     console.log(data);
+    //   });
   }
 
   //      news articles with appropriate filters
@@ -309,7 +327,7 @@ $(document).ready(function () {
   geolocateUser();
 
   // EVENT HANDLERS
-  zenQuoteBtn.on("click", zenQuotesCallAPI);
+  quoteBtn.on("click", quotesCallAPI);
   devotionalBtn.on("click", devotionalCallAPI);
 
   // jQuery - keep code above the brackets below

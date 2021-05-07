@@ -2,6 +2,11 @@
   font-family: Cambria, Cochin, Georgia, Times, "Times New Roman", serif;
 }
 
+/* hides and reveals elements -Zach */
+.hidden {
+  display: none;
+}
+
 .lead {
   color: white;
 }
@@ -33,12 +38,12 @@
 }
 
 .upcoming {
-   position: relative;
+  position: relative;
   overflow: scroll;
   filter: drop-shadow(0 0 10px #0003);
   width: 65%;
   height: 15rem;
 }
 .weather {
- width: 12rem;
+  width: 12rem;
 }

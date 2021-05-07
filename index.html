@@ -38,10 +38,10 @@
         <div class="col-med-2 ml-3" id="tempMax"></div>
       </div>
       <div>   
-        <div class="row mb-3 col-med-2" id="windSpeed"></div>        
-        <div class="row mb-3 col-med-2" id="windGust"></div>              
         <div class="row mb-3 col-med-2" id="sunrise"></div>            
         <div class="row mb-3 col-med-2" id="sunset"></div>
+        <div class="row mb-3 col-med-2" id="windSpeed"></div>        
+        <div class="row mb-3 col-med-2" id="windGust"></div>              
       </div>
       <section>       
         <button id="devotionalBtn">Devotional</button>
@@ -287,17 +287,18 @@
     </section>
   </div>
 
-
-  <!-- copyright section for API use, we can change location but do NOT REMOVE -Zach -->
-<section class="p-5 font-italic">
-  <div>
-    <!-- required -->
-    <p>Scripture quotations are from the ESV® Bible (The Holy Bible, English Standard Version®), copyright © 2001 by Crossway, a publishing ministry of Good News Publishers. Used by permission. All rights reserved. You may not copy or download more than 500 consecutive verses of the ESV Bible or more than one half of any book of the ESV Bible.</p>
-  <!-- required -->
-  <p>For more inspirational quotes: <a href="https://zenquotes.io/">https://zenquotes.io/</a></p>
-   
-  </div>
-</section>
+  <!-- //            AUTHOR: Zach              //
+  // -- Devotional or Inspirational Quote DISPLAY -- // -->
+  <section>
+    <div id="quote-parent" class="hidden ml-5">
+      <h2 id="quote-id" class="font-italic"></h2>
+      <h4 id="quote-author"></h4>
+    </div>
+    <div id="devotional-parent" class="hidden ml-5">
+      <h2 id="devotional-id" class="font-italic"></h2>
+      <h4 id="devotional-author"></h4>
+    </div>
+  </section>
 
     <!-- momentjs library -->
     <script
