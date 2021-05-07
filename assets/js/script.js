@@ -13,7 +13,6 @@ $(document).ready(function () {
   var globalNewsBtn = $("#globalNewsBtn");
   var technologyNewsBtn = $("#technologyNewsBtn");
   var localNewsBtn = $("localNewsBtn");
-  var accordionContainer = $("#accordion");
 
   // ask for user's locations from browser with window.navigator.geolocation
   function geolocateUser() {
