@@ -9,7 +9,7 @@ $(document).ready(function () {
   geolocateUser();
 
   // VARIABLE DECLARATIONS
-  var zenQuoteBtn = $("#zenQuoteBtn");
+  var quoteBtn = $("#zenQuoteBtn");
   var devotionalBtn = $("#devotionalBtn");
   var globalNewsBtn = $("#globalNewsBtn");
   var technologyNewsBtn = $("#technologyNewsBtn");
@@ -67,7 +67,6 @@ $(document).ready(function () {
     var windGust = $("#windGust");
     var date = $("#date");
     var time = $("#time");
-    var weatherDesc = $("weatherDesc");
     var sunrise = $("#sunrise");
     var sunset = $("#sunset");
 
@@ -96,13 +95,20 @@ $(document).ready(function () {
 
       // update static html text with weather data
       $(cityName).text(response.name);
-      $(tempCurrent).text("Currently: " + response.main.temp + "°F");
+      $(tempCurrent).text(
+        "Currently: " +
+          response.main.temp +
+          "°F " +
+          "with " +
+          response.weather[0].description
+      );
       $(tempMax).text("High: " + response.main.temp_max + "°F");
       $(tempMin).text("Low: " + response.main.temp_min + "°F");
       $(humidity).text("Humidity: " + " " + response.main.humidity + "%");
       $(windSpeed).text("Wind Speed: " + response.wind.speed + "MPH");
-      $(windGust).text("Wind Gusts: " + response.wind.gust + " MPH");
-      $(weatherDesc).text(response.weather[0].description);
+      if (response.wind.gust) {
+        $(windGust).text("Wind Gusts: " + response.wind.gust + " MPH");
+      }
       $(sunrise).text("Sunrise Time: " + sunriseObj);
       $(sunset).text("Sunset Time: " + sunsetObj);
     });
@@ -270,28 +276,54 @@ $(document).ready(function () {
   //            AUTHOR: Zach              //
   // -- Devotional or Inspirational Quote -- //
   function devotionalCallAPI() {
-    var devotionalURL = ``;
+    var devotionalURL = `https://www.abibliadigital.com.br/api/verses/bbe/random`;
+    var devotionalParent = $("#devotional-parent");
+    var devotionalID = $("#devotional-id");
+    var devotionalAuthor = $("#devotional-author");
     $.ajax({
       url: devotionalURL,
       method: "GET",
     }).then(function (response) {
       console.log(response);
+
+      devotionalParent.removeClass("hidden");
+
+      devotionalID.text('"' + response.text + '"');
+      devotionalAuthor.text(
+        response.book.name + " " + response.chapter + ":" + response.number
+      );
     });
   }
 
-  function zenQuotesCallAPI() {
-    var zenBase = "https://zenquotes.io/api/";
-    var zenURL = `${zenBase}today/`;
+  function quotesCallAPI() {
+    var quoteURL = "https://api.quotable.io/random";
+    var quoteParent = $("#quote-parent");
+    var quoteID = $("#quote-id");
+    var quoteAuthor = $("#quote-author");
+
     $.ajax({
-      url: zenURL,
+      url: quoteURL,
       method: "GET",
     }).then(function (response) {
       console.log(response);
+
+      quoteParent.removeClass("hidden");
+
+      quoteID.text('"' + response.content + '"');
+      quoteAuthor.text("~ " + response.author);
     });
+
+    // fetch(quoteURL)
+    //   .then(function (response) {
+    //     return response.json();
+    //   })
+    //   .then(function (data) {
+    //     console.log(data);
+    //   });
   }
 
   // EVENT HANDLERS
-  zenQuoteBtn.on("click", zenQuotesCallAPI);
+  quoteBtn.on("click", quotesCallAPI);
   devotionalBtn.on("click", devotionalCallAPI);
 
   //added news card event handlers --JG
