@@ -5,10 +5,11 @@ $(document).ready(function () {
   //TODO create button listeners for global, local, technology news calls
 
   // News article with appropriate filters
-  geolocateUser();
-  // technologyNewsData();
 
   // VARIABLE DECLARATIONS
+  var shareLocation = $("#share-location-btn");
+  var quoteBtn = $("#zenQuoteBtn");
+  var devotionalBtn = $("#devotionalBtn");
   var localNewsBtn = $("#localNewsBtn");
   var globalNewsBtn = $("#globalNewsBtn");
   var technologyNewsBtn = $("#technologyNewsBtn");
@@ -22,6 +23,7 @@ $(document).ready(function () {
   function geolocateUser() {
     // if the location is successfully retrieved
     function onGeolocateSuccess(coordinates) {
+      shareLocation.addClass("hidden");
       // pass this obj to weather api
       var geolocationObj = {
         lat: coordinates.coords.latitude,
@@ -31,6 +33,7 @@ $(document).ready(function () {
       latitude = coordinates.coords.latitude;
       // call weather api with geolocationObj
       callWeatherAPI(geolocationObj);
+      callForecastAPI(geolocationObj);
     }
 
     // if there is an error trying to grab geolocation
@@ -117,6 +120,57 @@ $(document).ready(function () {
     });
   }
 
+  //             AUTHOR: Zach               //
+  //            -- Forecast --              //
+  function callForecastAPI(obj) {
+    var forecastAPIKey = "24d3e77575ea6a3daa1e23b95dbe112f";
+    var forecastURL = `https://api.openweathermap.org/data/2.5/onecall?lat=${obj.lat}&lon=${obj.lon}&exclude=current,minutely,alerts&appid=${forecastAPIKey}&units=imperial`;
+    var forecastContainer = $("#forecast-container");
+    $.ajax({
+      url: forecastURL,
+      method: "GET",
+    }).then(function (response) {
+      console.log(response);
+      // remove hidden class from container
+      forecastContainer.removeClass("hidden");
+
+      // Forecast code below
+      var scrollParent = $("#scroll-parent");
+      var forecastArr = [];
+      for (var i = 0; i < 5; i++) {
+        var forecast = response.daily[i + 1];
+        forecastArr.push(forecast);
+
+        var cardDate = new Date(forecastArr[i].dt * 1000).toLocaleDateString();
+
+        var card = $("<div>");
+        card.attr("class", "card card-body weather m-3");
+        scrollParent.append(card);
+
+        var cardTitle = $(
+          "<h2>" + "<strong>" + cardDate + "</strong>" + "</h2>"
+        );
+        cardTitle.attr("class", "title");
+
+        var cardTemp = $(
+          "<p>" + "Temperature: " + forecastArr[i].temp.day + "°F" + "</p>"
+        );
+        cardTemp.attr("class", "card-text");
+
+        var cardWind = $(
+          "<p>" + "Wind Speed: " + forecastArr[i].wind_speed + " MPH" + "</p>"
+        );
+        cardWind.attr("class", "card-text");
+
+        var cardHumid = $(
+          "<p>" + "Humidity: " + forecastArr[i].humidity + "%" + "</p>"
+        );
+        cardHumid.attr("class", "card-text");
+        card.append(cardTitle, cardTemp, cardWind, cardHumid);
+      }
+    });
+  }
+
   // JG retrieves user's external IP (city, region, and country) for local news
   function callIpAPI(longitude, latitude) {
     //call ipify geolocation api key and url
@@ -126,12 +180,12 @@ $(document).ready(function () {
       url: geoApiUrl,
       method: "GET",
     }).then(function (response) {
+      
       var city = response.city;
       var region = response.localityInfo.administrative[1].name;
       var country = response.countryCode;
 
       // call local news and pass the name of user's city, region, and country
-      callLocalNewsAPI(city, region, country);
     });
   }
 
@@ -274,18 +328,17 @@ $(document).ready(function () {
   // -- Devotional or Inspirational Quote -- //
   function devotionalCallAPI() {
     var devotionalURL = `https://www.abibliadigital.com.br/api/verses/bbe/random`;
+
     var newsCards = document.getElementById("contentBlock");
     newsCards.innerHTML = "";
-    // var devotionalParent = $("#devotional-parent");
-    // var devotionalID = $("#devotional-id");
-    // var devotionalAuthor = $("#devotional-author");
+
     $.ajax({
       url: devotionalURL,
       method: "GET",
     }).then(function (response) {
       console.log(response);
-      var devotionalID = response.text;
 
+      var devotionalID = response.text;
       var section = document.createElement("section");
       section.setAttribute("class", "row news");
       section.setAttribute("class", "col-sm-4");
@@ -294,7 +347,7 @@ $(document).ready(function () {
       var divCard = document.createElement("div");
       divCard.setAttribute("class", "card");
       divCard.setAttribute("width", "250px");
-      divCard.textContent = devotionalID;
+      divCard.text('"' + devotionalID + '"');
       section.appendChild(divCard);
     });
   }
@@ -322,11 +375,12 @@ $(document).ready(function () {
     });
   }
 
+  // EVENT HANDLERS
   //added news card event handlers --JG
+  shareLocation.on("click", geolocateUser);
   localNewsBtn.on("click", function () {
     callIpAPI(longitude, latitude);
   });
-
   globalNewsBtn.on("click", callGlobalNewsAPI);
   technologyNewsBtn.on("click", technologyNewsData);
   quoteBtn.on("click", quotesCallAPI);
