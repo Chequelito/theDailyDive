@@ -383,9 +383,6 @@ $(document).ready(function () {
     //   });
   }
 
-  // jQuery UI Widget -Zach
-  accordionContainer.accordion();
-
   // EVENT HANDLERS
   quoteBtn.on("click", quotesCallAPI);
   devotionalBtn.on("click", devotionalCallAPI);
