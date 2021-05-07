@@ -10,9 +10,14 @@ $(document).ready(function () {
   var shareLocation = $("#share-location-btn");
   var quoteBtn = $("#zenQuoteBtn");
   var devotionalBtn = $("#devotionalBtn");
+  var localNewsBtn = $("#localNewsBtn");
   var globalNewsBtn = $("#globalNewsBtn");
   var technologyNewsBtn = $("#technologyNewsBtn");
-  var localNewsBtn = $("localNewsBtn");
+  var quoteBtn = $("#zenQuoteBtn");
+  var devotionalBtn = $("#devotionalBtn");
+  var cityName = "";
+  var longitude = "";
+  var latitude = "";
 
   // ask for user's locations from browser with window.navigator.geolocation
   function geolocateUser() {
@@ -24,7 +29,8 @@ $(document).ready(function () {
         lat: coordinates.coords.latitude,
         lon: coordinates.coords.longitude,
       };
-
+      longitude = coordinates.coords.longitude;
+      latitude = coordinates.coords.latitude;
       // call weather api with geolocationObj
       callWeatherAPI(geolocationObj);
       callForecastAPI(geolocationObj);
@@ -59,7 +65,7 @@ $(document).ready(function () {
     var weatherAPIKey = "24d3e77575ea6a3daa1e23b95dbe112f";
     var weatherURL = `${weatherBaseURL}lat=${geolocationObj.lat}&lon=${geolocationObj.lon}&appid=${weatherAPIKey}&units=imperial`;
     // link html elements to js variables
-    var cityName = $("#cityName");
+    cityName = $("#cityName");
     var tempCurrent = $("#currentTemp");
     var tempMax = $("#tempMax");
     var tempMin = $("#tempMin");
@@ -166,31 +172,18 @@ $(document).ready(function () {
   }
 
   // JG retrieves user's external IP (city, region, and country) for local news
-  function callIpAPI() {
+  function callIpAPI(longitude, latitude) {
     //call ipify geolocation api key and url
-    var geoApiKey = "at_0YiSfhoxK70ap9ecG6pYXXKIcktmj";
-    var geoApiUrl = "https://geo.ipify.org/api/v1?apiKey=" + geoApiKey;
-
+    console.log("IN CALLIPAPI FUNCTION");
+    var geoApiUrl = `https://api.bigdatacloud.net/data/reverse-geocode-client?latitude${latitude}&longitude=${longitude}&localityLanguage=en`;
     $.ajax({
       url: geoApiUrl,
       method: "GET",
     }).then(function (response) {
-      console.log(response);
-      console.log("IP :" + response.ip);
-
-      var geolocationObj = {
-        city: response.location.city,
-        region: response.location.region,
-        country: response.location.country,
-        lat: response.location.lat,
-        lon: response.location.lng,
-      };
-
-      callLocalNewsAPI(
-        geolocationObj.city,
-        geolocationObj.region,
-        geolocationObj.country
-      );
+      
+      var city = response.city;
+      var region = response.localityInfo.administrative[1].name;
+      var country = response.countryCode;
 
       // call local news and pass the name of user's city, region, and country
     });
@@ -221,8 +214,7 @@ $(document).ready(function () {
         var publishedDate = localNewsData[i].pub_date;
         var shortUrl = localNewsData[i].web_url;
         publishedDate = moment().format("MMM Do YYYY");
-        //var newsClass = "local";
-        //buildContainer(newsClass, title, abstract, publishedDate, shortUrl);
+
         buildCard(title, abstract, publishedDate, shortUrl);
       }
     });
@@ -250,8 +242,7 @@ $(document).ready(function () {
         var publishedDate = globalNewsData[i].published_date;
         var shortUrl = globalNewsData[i].short_url;
         publishedDate = moment().format("MMM Do YYYY");
-        //var newsClass = "global";
-        //buildContainer(newsClass, title, abstract, publishedDate, shortUrl);
+
         buildCard(title, abstract, publishedDate, shortUrl);
       }
     });
@@ -261,7 +252,7 @@ $(document).ready(function () {
   function technologyNewsData() {
     var techApiKey = "UAm8GChwLgFlI7l9sL58gMBAlx1H3XT3";
     var techUrl = `https://api.nytimes.com/svc/topstories/v2/technology.json?api-key=${techApiKey}`;
-    console.log("tech News Api Function Call");
+    console.log("IN TECH NEWS FUNCTION CALL");
     fetch(techUrl)
       .then(function (response) {
         return response.json();
@@ -278,12 +269,7 @@ $(document).ready(function () {
           var publishedDate = results[i].published_date;
           publishedDate = moment().format("MMM Do YYYY");
           var shortUrl = results[i].short_url;
-          console.log("Title: " + title);
-          console.log("abstract: " + abstract);
-          console.log("published date: " + publishedDate);
-          console.log("short url: " + shortUrl);
-          //var newsClass = "tech";
-          //buildContainer(newsClass, title, abstract, publishedDate, shortUrl);
+
           buildCard(title, abstract, publishedDate, shortUrl);
         }
       });
@@ -296,7 +282,7 @@ $(document).ready(function () {
     // newsCards.setAttribute("display", "flex");
     //***Section Container For Individual Card***//
     var section = document.createElement("section");
-    section.setAttribute("class", " row news"); //col-md-2 mb-3
+    section.setAttribute("class", " row news");
     section.setAttribute("class", "col-sm-2");
     section.setAttribute("width", "150px");
     newsCards.appendChild(section);
@@ -335,63 +321,70 @@ $(document).ready(function () {
     publishDatePara.appendChild(dateText);
 
     divBody.appendChild(publishDatePara);
-    console.log(newsCards);
+    //console.log(newsCards);
   }
 
   //            AUTHOR: Zach              //
   // -- Devotional or Inspirational Quote -- //
   function devotionalCallAPI() {
     var devotionalURL = `https://www.abibliadigital.com.br/api/verses/bbe/random`;
-    var devotionalParent = $("#devotional-parent");
-    var devotionalID = $("#devotional-id");
+
+    var newsCards = document.getElementById("contentBlock");
+    newsCards.innerHTML = "";
+
     $.ajax({
       url: devotionalURL,
       method: "GET",
     }).then(function (response) {
       console.log(response);
 
-      devotionalParent.removeClass("hidden");
-
-      devotionalID.text('"' + response.text + '"');
+      var devotionalID = response.text;
+      var section = document.createElement("section");
+      section.setAttribute("class", "row news");
+      section.setAttribute("class", "col-sm-4");
+      section.setAttribute("width", "150px");
+      newsCards.appendChild(section);
+      var divCard = document.createElement("div");
+      divCard.setAttribute("class", "card");
+      divCard.setAttribute("width", "250px");
+      divCard.text('"' + devotionalID + '"');
+      section.appendChild(divCard);
     });
   }
 
   function quotesCallAPI() {
     var quoteURL = "https://api.quotable.io/random";
-    var quoteParent = $("#quote-parent");
-    var quoteID = $("#quote-id");
-    var quoteAuthor = $("#quote-author");
-
+    var newsCards = document.getElementById("contentBlock");
+    newsCards.innerHTML = "";
     $.ajax({
       url: quoteURL,
       method: "GET",
     }).then(function (response) {
-      console.log(response);
+      var quoteContent = response.content;
+      var quoteAuthor = response.author;
 
-      quoteParent.removeClass("hidden");
-
-      quoteID.text('"' + response.content + '"');
-      quoteAuthor.text("~ " + response.author);
+      var section = document.createElement("section");
+      section.setAttribute("class", " row news col-sm-4");
+      section.setAttribute("width", "150px");
+      newsCards.appendChild(section);
+      var divCard = document.createElement("div");
+      divCard.setAttribute("class", "card");
+      divCard.setAttribute("id", "quoteID");
+      divCard.textContent = quoteContent + " ~ " + quoteAuthor;
+      section.appendChild(divCard);
     });
-
-    // fetch(quoteURL)
-    //   .then(function (response) {
-    //     return response.json();
-    //   })
-    //   .then(function (data) {
-    //     console.log(data);
-    //   });
   }
 
   // EVENT HANDLERS
-  quoteBtn.on("click", quotesCallAPI);
-  devotionalBtn.on("click", devotionalCallAPI);
-  shareLocation.on("click", geolocateUser);
-
   //added news card event handlers --JG
+  shareLocation.on("click", geolocateUser);
+  localNewsBtn.on("click", function () {
+    callIpAPI(longitude, latitude);
+  });
   globalNewsBtn.on("click", callGlobalNewsAPI);
   technologyNewsBtn.on("click", technologyNewsData);
-  localNewsBtn.on("click", callIpAPI);
+  quoteBtn.on("click", quotesCallAPI);
+  devotionalBtn.on("click", devotionalCallAPI);
 
   // jQuery - keep code above the brackets below
 });
