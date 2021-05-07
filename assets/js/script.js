@@ -5,8 +5,9 @@ $(document).ready(function () {
   //TODO create button listeners for global, local, technology news calls
 
   // News article with appropriate filters
-  callIpAPI();
+  // callIpAPI();
   geolocateUser();
+  // technologyNewsData();
 
   // VARIABLE DECLARATIONS
   var quoteBtn = $("#zenQuoteBtn");
@@ -74,8 +75,7 @@ $(document).ready(function () {
       url: weatherURL,
       method: "GET",
     }).then(function (response) {
-      console.log(response);
-
+      // console.log(response);
       //   updates time and date every 1000 milliseconds
       function updateTime() {
         setInterval(function () {
@@ -156,23 +156,18 @@ $(document).ready(function () {
       Method: "GET",
     }).then(function (response) {
       console.log("IN CALL LOCAL NEWS FUNCTION");
-      console.log(response);
       var localNewsData = response.response.docs;
-      console.log(localNewsData);
+      var newsCards = document.getElementById("contentBlock");
+      newsCards.innerHTML = "";
 
       for (var i = 0; i < 5; i++) {
         var title = localNewsData[i].headline.main;
         var abstract = localNewsData[i].abstract;
         var publishedDate = localNewsData[i].pub_date;
         var shortUrl = localNewsData[i].web_url;
-
         publishedDate = moment().format("MMM Do YYYY");
-
-        // console.log("TITLE : " + title);
-        // console.log("ABSTRACT : " + abstract);
-        // console.log("PUBLISHED DATE : " + publishedDate);
-        //console.log("SHORT URL : " + shortUrl);
-
+        //var newsClass = "local";
+        //buildContainer(newsClass, title, abstract, publishedDate, shortUrl);
         buildCard(title, abstract, publishedDate, shortUrl);
       }
     });
@@ -185,7 +180,6 @@ $(document).ready(function () {
     var globalNewsUrl =
       "https://api.nytimes.com/svc/topstories/v2/world.json?api-key=" +
       globalNewsApiKey;
-    console.log(globalNewsUrl);
 
     $.ajax({
       url: globalNewsUrl,
@@ -193,19 +187,16 @@ $(document).ready(function () {
     }).then(function (response) {
       console.log("IN GLOBAL NEWS FUNCTION");
       var globalNewsData = response.results;
-      //console.log(globalNewsData);
+      var newsCards = document.getElementById("contentBlock");
+      newsCards.innerHTML = "";
       for (var i = 0; i < 5; i++) {
-        //console.log(globalNewsData[i]);
         var title = globalNewsData[i].title;
         var abstract = globalNewsData[i].abstract;
         var publishedDate = globalNewsData[i].published_date;
         var shortUrl = globalNewsData[i].short_url;
         publishedDate = moment().format("MMM Do YYYY");
-        console.log("Title: " + title);
-        console.log("abstract: " + abstract);
-        console.log("Published Date: " + publishedDate);
-        console.log("Short Url :" + shortUrl);
-
+        //var newsClass = "global";
+        //buildContainer(newsClass, title, abstract, publishedDate, shortUrl);
         buildCard(title, abstract, publishedDate, shortUrl);
       }
     });
@@ -220,19 +211,38 @@ $(document).ready(function () {
       .then(function (response) {
         return response.json();
       })
-      .then(function (CurrentNewsTech) {
-        console.log(CurrentNewsTech);
+      .then(function (currentNewsTechObj) {
+        var results = currentNewsTechObj.results;
+
+        var newsCards = document.getElementById("contentBlock");
+        newsCards.innerHTML = "";
+
+        for (let i = 0; i < 5; i++) {
+          var title = results[i].title;
+          var abstract = results[i].abstract;
+          var publishedDate = results[i].published_date;
+          publishedDate = moment().format("MMM Do YYYY");
+          var shortUrl = results[i].short_url;
+          console.log("Title: " + title);
+          console.log("abstract: " + abstract);
+          console.log("published date: " + publishedDate);
+          console.log("short url: " + shortUrl);
+          //var newsClass = "tech";
+          //buildContainer(newsClass, title, abstract, publishedDate, shortUrl);
+          buildCard(title, abstract, publishedDate, shortUrl);
+        }
       });
   }
 
-  //*****Dynamic News Card Function******Author:Sam//
+  //*****Dynamic Card Generation Function******Author:Sam//
   function buildCard(title, abstract, publishedDate, shortUrl) {
     //**Main Section Container Variable for all News Cards***//
-    var newsCards = document.getElementById("newsCards");
-
+    var newsCards = document.getElementById("contentBlock");
+    // newsCards.setAttribute("display", "flex");
     //***Section Container For Individual Card***//
     var section = document.createElement("section");
-    section.setAttribute("class", "news col-md-2 mb-3 row");
+    section.setAttribute("class", " row news"); //col-md-2 mb-3
+    section.setAttribute("class", "col-sm-2");
     section.setAttribute("width", "150px");
     newsCards.appendChild(section);
 
