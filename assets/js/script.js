@@ -103,10 +103,10 @@ $(document).ready(function () {
       $(cityName).text(response.name);
       $(tempCurrent).text(
         "Currently: " +
-          response.main.temp +
-          "°F " +
-          "with " +
-          response.weather[0].description
+        response.main.temp +
+        "°F " +
+        "with " +
+        response.weather[0].description
       );
       $(tempMax).text("High: " + response.main.temp_max + "°F");
       $(tempMin).text("Low: " + response.main.temp_min + "°F");
@@ -282,7 +282,7 @@ $(document).ready(function () {
     // newsCards.setAttribute("display", "flex");
     //***Section Container For Individual Card***//
     var section = document.createElement("section");
-    section.setAttribute("class", " row");
+    section.setAttribute("class", "row");
     // section.setAttribute("class", "col-sm-2");
 
     // section.setAttribute("width", "150px");

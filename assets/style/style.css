@@ -1,5 +1,45 @@
 * {
-  font-family: Cambria, Cochin, Georgia, Times, "Times New Roman", serif;
+  font-family: var(--basics);
+  text-shadow:  2px 2px 5px var(--outline);
+  color: var(--font);
+
+  
+}
+
+
+
+:root {
+  --light: #adc178;
+  --dark: #f0ead2;
+  --font: #6c584c;
+  --link: #386641;
+  --outline: #688900;
+  --offset: #a98467;
+  --basics: Georgia, "Times New Roman", Times, serif;
+  --card: 	#e7e2f8;
+
+}
+
+a {
+  color: var(--link);
+  text-shadow:  0px 0px 8px var(--font);
+  
+}
+
+
+a:hover {
+  color: var(--font);
+  text-shadow:  0px 0px 8px var(--link);
+}
+
+/* hides and reveals elements -Zach */
+.hidden {
+  display: none;
+}
+
+.card {
+  color: var(--font);
+  background-color: var(--light);
 }
 
 #devotionalID,
@@ -13,10 +53,12 @@
   margin: 10px;
   width: 100%;
 }
+
 /* hides and reveals elements -Zach */
 .hidden {
   display: none;
 }
+
 
 .lead {
   color: white;
@@ -36,11 +78,13 @@
 }
 
 .tools {
+  background-color: var(--light);
   transition: box-shadow 0.3s;
 }
 
 .tools:hover {
   box-shadow: 0 0 11px cadetblue;
+  background-color: var(--offset);
 }
 
 .jumbotron {
@@ -57,4 +101,61 @@
 
 .weather {
   width: 12rem;
+}
+
+#currentTemp {
+  font-size: 2rem;
+
+}
+
+h3 {
+  font-size: 2rem;
+}
+
+button {
+  border-radius: 8px;
+  transition-duration: 0.4s;
+  box-shadow: 0 5px 8px 0 rgba(0,0,0,0.24), 0 12px 30px 0 rgba(0,0,0,0.19);
+}
+
+button:hover {
+  background-color: var(--light);
+  color: var(--dark);
+  box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24), 0 17px 50px 0 rgba(0,0,0,0.19);
+}
+
+body{
+  background-color: var(--dark);
+}
+
+.shrLocBtn {
+  
+  border-radius: 4px;
+  background-color: var(--light);
+  border: none;
+  color: var(--card);
+  text-align: center;
+  font-size: 28px;
+  padding: 20px;
+  width: 200px;
+  transition: all 0.5s;
+  cursor: pointer;
+  margin: 5px;
+}
+
+.shrLocBtn:hover {
+   background-color: var(--offset);
+text-shadow:  2px 2px 10px var(--dark);
+  color: var(--card);
+}
+
+
+/* clears uneccessary bgrnd color zeke */
+p,
+h1,
+h2,
+h3,
+h4,
+header,
+  background-color: transparent;
 }
