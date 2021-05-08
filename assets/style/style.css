@@ -9,6 +9,10 @@
   margin: 20px;
 }
 
+#share-location-btn {
+  width: 100%;
+}
+
 .custom-card {
   margin: 10px;
   width: 100%;
