@@ -7,10 +7,10 @@
 
     <!-- bootstrap style -->
     <link
-    rel="stylesheet"
-    href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css"
-    integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l"
-    crossorigin="anonymous"
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css"
+      integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l"
+      crossorigin="anonymous"
     />
     <!-- custom-style -->
     <link rel="stylesheet" href="./assets/style/style.css" />
@@ -19,106 +19,95 @@
   </head>
 
   <body>
-
-    <!-- ***Main Header*** -->                              
+    <!-- ***Main Header*** -->
     <header id="headerBackground">
       <div class="jumbotron jumbotron-fluid">
         <div class="container">
           <h1 class="lead display-4">The Daily Dive</h1>
           <p class="lead">
-            Welcome to 'The Daily Dive'! This convenient webpage is your new
-            one-stop, home-screen! Here, you can get useful information and
-            encouragement at the beginning of your day, all in one place!
+            Welcome! Catch up on the latest news and start your day off right!
           </p>
         </div>
       </div>
     </header>
 
     <!-- ***Parent Container for Weather*** -->
-    <div class="row">
-      <div class="col-sm-3">
-        <section class="row align-items-center">
-          <div
-            class="card col-med-5 ml-5 mb-5 pl-5"
-            style="width: 20rem; height: 25rem"
-          >
-            <div>
-              <h1 class="row font-weight-bold" id="cityName"></h1>
-              <h2 class="row" id="date"></h2>
-              <h3 class="row mb-3" id="time"></h3>
-              <div class="row mb-3" id="currentTemp">Get weather in your area:</div>
-              <button id="share-location-btn">Share Location</button>
-            </div>
-            <div class="row mb-3">
-              <div class="col-med-2" id="tempMin"></div>
-              <div class="col-med-2 ml-3" id="tempMax"></div>
-            </div>
-            <div>
-              <div class="row mb-3 col-med-2" id="windSpeed"></div>
-              <div class="row mb-3 col-med-2" id="windGust"></div>
-              <div class="row mb-3 col-med-2" id="sunrise"></div>
-              <div class="row mb-3 col-med-2" id="sunset"></div>
-            </div>
-          </div>
-        </section>
+    <div class="d-flex">
+      <div class="col-med-5 ml-5 mb-5">
+        <div>
+          <h1 class="row font-weight-bold" id="cityName"></h1>
+          <h2 class="row" id="date"></h2>
+          <h3 class="row mb-3" id="time"></h3>
+          <div class="row mb-3" id="currentTemp">Get weather in your area:</div>
+          <button id="share-location-btn">Share Location</button>
+        </div>
+        <div class="row mb-3">
+          <div class="col-med-2" id="tempMin"></div>
+          <div class="col-med-2 ml-3" id="tempMax"></div>
+        </div>
+        <div>
+          <div class="row mb-3 col-med-2" id="sunrise"></div>
+          <div class="row mb-3 col-med-2" id="sunset"></div>
+          <div class="row mb-3 col-med-2" id="windSpeed"></div>
+          <div class="row mb-3 col-med-2" id="windGust"></div>
+        </div>
       </div>
-      
+
       <!-- forecast container -->
       <!-- scroll cards dynamically generated-->
-      <section class="container-fluid col-sm-9 upcoming" id="forecast-container">
-        <div class="row flex-row flex-nowrap" id="scroll-parent"></div>
+      <section
+        class="container-fluid col-sm-9 upcoming"
+        id="forecast-container"
+      >
+        <div class="row flex-row flex-wrap" id="scroll-parent"></div>
       </section>
-    </section>     
-  </div>
-  
-  
+    </div>
+
     <!--***Parent Container for 2nd Row Generating Cards *** -->
-    <div class="row">
+    <div class="d-flex">
       <div class="col-sm-3">
-        <section class="col-med-5 ml-1 mb-5 pl-4">
-          <h3>Categories:</h3>
-          <div class="card" style="width: 18rem">
-            <ul class="list-group list-group-flush">
-              <button
-                id="localNewsBtn"
-                class="tools list-group-item list-group-item-action"
-              >
-                Local News
-              </button>
-              <button
-                id="globalNewsBtn"
-                class="tools list-group-item list-group-item-action"
-              >
-                Global News
-              </button>
-              <button
-                id="technologyNewsBtn"
-                class="tools list-group-item list-group-item-action"
-              >
-                Technology News
-              </button>
-              <button
-                id="zenQuoteBtn"
-                class="tools list-group-item list-group-item-action"
-              >
-                Zen Quotes
-              </button>
-              <button
-                id="devotionalBtn"
-                class="tools list-group-item list-group-item-action"
-              >
-                Devotional
-              </button>
-            </ul>
-          </div>
-        </section>
+        <h3>Categories:</h3>
+        <div class="card">
+          <ul class="list-group list-group-flush">
+            <button
+              id="localNewsBtn"
+              class="tools list-group-item list-group-item-action"
+            >
+              Local News
+            </button>
+            <button
+              id="globalNewsBtn"
+              class="tools list-group-item list-group-item-action"
+            >
+              Global News
+            </button>
+            <button
+              id="technologyNewsBtn"
+              class="tools list-group-item list-group-item-action"
+            >
+              Technology News
+            </button>
+            <button
+              id="zenQuoteBtn"
+              class="tools list-group-item list-group-item-action"
+            >
+              Inspirational Quotes
+            </button>
+            <button
+              id="devotionalBtn"
+              class="tools list-group-item list-group-item-action"
+            >
+              Devotional
+            </button>
+          </ul>
+        </div>
       </div>
-      <div class="col-sm-9">
+      <div class="col-sm-3 col-med-6 col-lg-9">
         <div class="row" id="contentBlock"></div>
       </div>
     </div>
 
-<!-- //            AUTHOR: Zach              //
+    <!-- //            AUTHOR: Zach              //
   // -- Devotional or Inspirational Quote DISPLAY -- // -->
     <section>
       <div id="quote-parent" class="hidden ml-5">
@@ -130,7 +119,7 @@
         <h4 id="devotional-author"></h4>
       </div>
     </section>
-  
+
     <!--***Script Links**-->
     <!-- momentjs library -->
     <script
