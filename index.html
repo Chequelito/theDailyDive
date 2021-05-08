@@ -20,15 +20,13 @@
 
   <body>
     <!-- ***Main Header*** -->
-    <header id="headerBackground">
-      <div class="jumbotron jumbotron-fluid">
-        <div class="container">
-          <h1 class="lead display-4">The Daily Dive</h1>
-          <p class="lead">
-            Welcome! Catch up on the latest news and start your day off right!
-          </p>
-        </div>
-      </div>
+    <header class="jumbotron jumbotron-fluid" id="headerBackground">
+      <section class="container">
+        <h1 class="lead display-4">The Daily Dive</h1>
+        <p class="lead">
+          Welcome! Catch up on the latest news and start your day off right!
+        </p>
+      </section>
     </header>
 
     <!-- ***Parent Container for Weather*** -->
@@ -38,9 +36,9 @@
           <h1 class="row font-weight-bold" id="cityName"></h1>
           <h2 class="row" id="date"></h2>
           <h3 class="row mb-3" id="time"></h3>
-          <div class="row mb-3" id="currentTemp">Get weather in your area:</div>
-          <button class="tools card" id="share-location-btn">
-            Share Location
+          <div class="row mb-3" id="currentTemp">Share Location:</div>
+          <button class="shrLocBtn" id="share-location-btn">
+            Get weather in your area
           </button>
         </div>
         <div class="row mb-3">
