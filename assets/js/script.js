@@ -144,7 +144,7 @@ $(document).ready(function () {
         var cardDate = new Date(forecastArr[i].dt * 1000).toLocaleDateString();
 
         var card = $("<div>");
-        card.attr("class", "card card-body weather m-3");
+        card.attr("class", "card card-body weather m-3 p-3 news");
         scrollParent.append(card);
 
         var cardTitle = $(
@@ -180,12 +180,12 @@ $(document).ready(function () {
       url: geoApiUrl,
       method: "GET",
     }).then(function (response) {
-      
       var city = response.city;
       var region = response.localityInfo.administrative[1].name;
       var country = response.countryCode;
 
       // call local news and pass the name of user's city, region, and country
+      callLocalNewsAPI(city, region, country);
     });
   }
 
@@ -282,14 +282,15 @@ $(document).ready(function () {
     // newsCards.setAttribute("display", "flex");
     //***Section Container For Individual Card***//
     var section = document.createElement("section");
-    section.setAttribute("class", " row news");
-    section.setAttribute("class", "col-sm-2");
-    section.setAttribute("width", "150px");
+    section.setAttribute("class", " row");
+    // section.setAttribute("class", "col-sm-2");
+
+    // section.setAttribute("width", "150px");
     newsCards.appendChild(section);
 
     //***Inner Card Container to Hold News Data***//
     var divCard = document.createElement("div");
-    divCard.setAttribute("class", "card");
+    divCard.setAttribute("class", "card custom-card news");
     section.appendChild(divCard);
 
     //**Card Body Variable***//
@@ -339,16 +340,11 @@ $(document).ready(function () {
       console.log(response);
 
       var devotionalID = response.text;
-      var section = document.createElement("section");
-      section.setAttribute("class", "row news");
-      section.setAttribute("class", "col-sm-4");
-      section.setAttribute("width", "150px");
-      newsCards.appendChild(section);
+
       var divCard = document.createElement("div");
-      divCard.setAttribute("class", "card");
-      divCard.setAttribute("width", "250px");
-      divCard.text('"' + devotionalID + '"');
-      section.appendChild(divCard);
+      divCard.setAttribute("id", "devotionalID");
+      divCard.textContent = '"' + devotionalID + '"';
+      newsCards.appendChild(divCard);
     });
   }
 
@@ -363,15 +359,10 @@ $(document).ready(function () {
       var quoteContent = response.content;
       var quoteAuthor = response.author;
 
-      var section = document.createElement("section");
-      section.setAttribute("class", " row news col-sm-4");
-      section.setAttribute("width", "150px");
-      newsCards.appendChild(section);
       var divCard = document.createElement("div");
-      divCard.setAttribute("class", "card");
       divCard.setAttribute("id", "quoteID");
-      divCard.textContent = quoteContent + " ~ " + quoteAuthor;
-      section.appendChild(divCard);
+      divCard.textContent = '"' + quoteContent + '"' + " ~ " + quoteAuthor;
+      newsCards.appendChild(divCard);
     });
   }
 
