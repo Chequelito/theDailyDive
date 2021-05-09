@@ -7,6 +7,7 @@ $(document).ready(function () {
   // News article with appropriate filters
 
   // VARIABLE DECLARATIONS
+  var topBtn = $("#topBtn");
   var shareLocation = $("#share-location-btn");
   var quoteBtn = $("#zenQuoteBtn");
   var devotionalBtn = $("#devotionalBtn");
@@ -103,10 +104,10 @@ $(document).ready(function () {
       $(cityName).text(response.name);
       $(tempCurrent).text(
         "Currently: " +
-        response.main.temp +
-        "°F " +
-        "with " +
-        response.weather[0].description
+          response.main.temp +
+          "°F " +
+          "with " +
+          response.weather[0].description
       );
       $(tempMax).text("High: " + response.main.temp_max + "°F");
       $(tempMin).text("Low: " + response.main.temp_min + "°F");
@@ -135,7 +136,7 @@ $(document).ready(function () {
       forecastContainer.removeClass("hidden");
 
       // Forecast code below
-      var scrollParent = $("#scroll-parent");
+      var forecastCards = $("#forecast-cards");
       var forecastArr = [];
       for (var i = 0; i < 5; i++) {
         var forecast = response.daily[i + 1];
@@ -145,7 +146,7 @@ $(document).ready(function () {
 
         var card = $("<div>");
         card.attr("class", "card card-body weather m-3 p-3 news");
-        scrollParent.append(card);
+        forecastCards.append(card);
 
         var cardTitle = $(
           "<h2>" + "<strong>" + cardDate + "</strong>" + "</h2>"
@@ -366,6 +367,16 @@ $(document).ready(function () {
     });
   }
 
+  //show top button when user scrolls down - Zach
+  function scrollDown() {
+    if (document.documentElement.scrollTop > 20) {
+      topBtn.css("display", "block");
+    } else {
+      topBtn.css("display", "none");
+    }
+  }
+  window.onscroll = scrollDown;
+
   // EVENT HANDLERS
   //added news card event handlers --JG
   shareLocation.on("click", geolocateUser);
@@ -376,6 +387,11 @@ $(document).ready(function () {
   technologyNewsBtn.on("click", technologyNewsData);
   quoteBtn.on("click", quotesCallAPI);
   devotionalBtn.on("click", devotionalCallAPI);
+
+  // scrolls user to top of site - Zach
+  topBtn.on("click", function () {
+    document.documentElement.scrollTop = 0;
+  });
 
   // jQuery - keep code above the brackets below
 });
