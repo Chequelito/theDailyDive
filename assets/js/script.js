@@ -7,6 +7,9 @@ $(document).ready(function () {
   // News article with appropriate filters
 
   // VARIABLE DECLARATIONS
+  var placeholdImage = $("#placehold-image");
+  var weatherContainer = $("#weather-container");
+
   var topBtn = $("#topBtn");
   var shareLocation = $("#share-location-btn");
   var quoteBtn = $("#zenQuoteBtn");
@@ -25,6 +28,7 @@ $(document).ready(function () {
     // if the location is successfully retrieved
     function onGeolocateSuccess(coordinates) {
       shareLocation.addClass("hidden");
+      placeholdImage.addClass("hidden");
       // pass this obj to weather api
       var geolocationObj = {
         lat: coordinates.coords.latitude,
@@ -118,6 +122,35 @@ $(document).ready(function () {
       }
       $(sunrise).text("Sunrise Time: " + sunriseObj);
       $(sunset).text("Sunset Time: " + sunsetObj);
+
+      // changes background image depending on weather desc
+      var weatherDescription = response.weather[0].description;
+
+      if (weatherDescription.includes("rain")) {
+        weatherContainer.css({
+          "background-image":
+            "url('https://images.unsplash.com/photo-1512511708753-3150cd2ec8ee?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80')",
+          "background-size": "cover",
+        });
+      } else if (weatherDescription.includes("snow")) {
+        weatherContainer.css({
+          "background-image":
+            "url('https://images.unsplash.com/photo-1511131341194-24e2eeeebb09?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80')",
+          "background-size": "cover",
+        });
+      } else if (weatherDescription.includes("cloud")) {
+        weatherContainer.css({
+          "background-image":
+            "url('https://images.unsplash.com/photo-1532178910-7815d6919875?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=675&q=80')",
+          "background-size": "cover",
+        });
+      } else if (weatherDescription.includes("clear")) {
+        weatherContainer.css({
+          "background-image":
+            "url('https://images.unsplash.com/photo-1482238069176-719f01722167?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=633&q=80')",
+          "background-size": "cover",
+        });
+      }
     });
   }
 
@@ -192,6 +225,7 @@ $(document).ready(function () {
 
   //    -- Local News -- AUTHOR: Zach   EDITED: JG //
   function callLocalNewsAPI(city, region, country) {
+    placeholdImage.addClass("hidden");
     // removes white spaces from variables
     city = city.replace(/ /g, "");
     region = region.replace(/ /g, "");
@@ -224,6 +258,7 @@ $(document).ready(function () {
   ///JG global news object function
   //TODO Once event listener buttons are added, they can call the news functions
   function callGlobalNewsAPI() {
+    placeholdImage.addClass("hidden");
     var globalNewsApiKey = "UCJMG4jj3LlXlGM9nUTRBZiy6aCx7huZ";
     var globalNewsUrl =
       "https://api.nytimes.com/svc/topstories/v2/world.json?api-key=" +
@@ -251,6 +286,7 @@ $(document).ready(function () {
 
   //--Calling Science/tech OBJ from NY API--//
   function technologyNewsData() {
+    placeholdImage.addClass("hidden");
     var techApiKey = "UAm8GChwLgFlI7l9sL58gMBAlx1H3XT3";
     var techUrl = `https://api.nytimes.com/svc/topstories/v2/technology.json?api-key=${techApiKey}`;
     console.log("IN TECH NEWS FUNCTION CALL");
@@ -376,6 +412,41 @@ $(document).ready(function () {
     }
   }
   window.onscroll = scrollDown;
+
+  // calls random image as placeholder -Zach
+  function randomImage() {
+    var imageArr = [
+      "https://images.unsplash.com/photo-1592210454359-9043f067919b?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80",
+
+      "https://images.unsplash.com/uploads/141327328038701afeede/eda0fb7c?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80",
+
+      "https://images.unsplash.com/photo-1523556452962-72201b25b374?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80",
+
+      "https://images.unsplash.com/photo-1470252649378-9c29740c9fa8?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80",
+
+      "https://images.unsplash.com/photo-1475924156734-496f6cac6ec1?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80",
+
+      "https://images.unsplash.com/photo-1464864636453-e971387cc51b?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1347&q=80",
+
+      "https://images.unsplash.com/photo-1476673160081-cf065607f449?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1352&q=80",
+
+      "https://images.unsplash.com/photo-1516431883659-655d41c09bf9?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1352&q=80",
+
+      "https://images.unsplash.com/photo-1591646878820-6648a10f44b7?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80",
+
+      "https://images.unsplash.com/photo-1583591749989-0d1e8c5bbf42?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80",
+
+      "https://images.unsplash.com/photo-1462524500090-89443873e2b4?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80",
+
+      "https://images.unsplash.com/photo-1575380591643-b2c92368dc6d?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1343&q=80",
+
+      "https://images.unsplash.com/photo-1506744038136-46273834b3fb?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80",
+    ];
+    var random = imageArr[Math.floor(Math.random() * imageArr.length)];
+    placeholdImage.attr("src", random);
+    console.log(random);
+  }
+  randomImage();
 
   // EVENT HANDLERS
   //added news card event handlers --JG

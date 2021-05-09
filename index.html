@@ -31,25 +31,26 @@
 
     <!-- ***Parent Container for Weather*** -->
     <div class="d-flex">
-      <div class="col-med-5 ml-5 mb-5">
+      <div class="mb-5 ml-3" id="weather-container">
         <div>
-          <h1 class="row font-weight-bold" id="cityName"></h1>
-          <h2 class="row" id="date"></h2>
-          <h3 class="row mb-3" id="time"></h3>
-          <div class="row mb-3" id="currentTemp">Share Location:</div>
-          <button class="shrLocBtn" id="share-location-btn">
-            Get weather in your area
-          </button>
+          <h1 class="ml-5 font-weight-bold weather-font" id="cityName"></h1>
+          <h2 class="ml-5 weather-font" id="date"></h2>
+          <h3 class="mb-3 ml-5 weather-font" id="time"></h3>
+          <div class="mb-3 ml-5 weather-font" id="currentTemp"></div>
+          <div class="mb-3 mr-3 weather-font" id="share-location-btn">
+            <h3>Share Location:</h3>
+            <button class="shrLocBtn tools">Get weather in your area</button>
+          </div>
         </div>
-        <div class="row mb-3">
-          <div class="col-med-2" id="tempMin"></div>
-          <div class="col-med-2 ml-3" id="tempMax"></div>
+        <div class="mb-3 ml-5">
+          <div id="tempMin" class="d-inline weather-font"></div>
+          <div class="ml-3 d-inline weather-font" id="tempMax"></div>
         </div>
         <div>
-          <div class="row mb-3 col-med-2" id="sunrise"></div>
-          <div class="row mb-3 col-med-2" id="sunset"></div>
-          <div class="row mb-3 col-med-2" id="windSpeed"></div>
-          <div class="row mb-3 col-med-2" id="windGust"></div>
+          <div class="mb-3 ml-5 weather-font" id="sunrise"></div>
+          <div class="mb-3 ml-5 weather-font" id="sunset"></div>
+          <div class="mb-3 ml-5 weather-font" id="windSpeed"></div>
+          <div class="mb-3 ml-5 weather-font" id="windGust"></div>
         </div>
       </div>
 
@@ -59,7 +60,16 @@
         class="container-fluid col-sm-9 upcoming"
         id="forecast-container"
       >
-        <div class="row flex-row flex-wrap" id="scroll-parent"></div>
+        <div
+          class="row flex-row flex-wrap justify-content-center"
+          id="forecast-cards"
+        >
+          <img
+            id="placehold-image"
+            src="#"
+            alt="A picture of a landscape view"
+          />
+        </div>
       </section>
     </div>
 
@@ -102,23 +112,14 @@
           </ul>
         </div>
       </div>
-      <div class="col-sm-3 col-med-6 col-lg-9">
+      <div class="col-lg-9">
         <div class="row" id="contentBlock"></div>
       </div>
     </div>
 
-    <!-- //            AUTHOR: Zach              //
-  // -- Devotional or Inspirational Quote DISPLAY -- // -->
-    <section>
-      <div id="quote-parent" class="hidden ml-5">
-        <h2 id="quote-id" class="font-italic"></h2>
-        <h4 id="quote-author"></h4>
-      </div>
-      <div id="devotional-parent" class="hidden ml-5">
-        <h2 id="devotional-id" class="font-italic"></h2>
-        <h4 id="devotional-author"></h4>
-      </div>
-    </section>
+    <footer>
+      <button class="shrLocBtn tools" id="topBtn">Top</button>
+    </footer>
 
     <!--***Script Links**-->
     <!-- momentjs library -->
